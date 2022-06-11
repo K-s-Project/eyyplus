@@ -1,4 +1,4 @@
-import 'package:aplus/domain/entity/productentity.dart';
+import 'package:eyyplus/domain/entity/productentity.dart';
 
 import '../../domain/entity/receiptentity.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,6 @@ import 'second_add_screen.dart';
 import '../widgets/customquicksandtext.dart';
 
 import '../../core/color/color.dart';
-import '../../depedency.dart';
-import 'main_screen.dart';
 
 class AddScreen extends StatefulWidget {
   final ProductEntity? product;
