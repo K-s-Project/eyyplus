@@ -296,10 +296,6 @@ class _AddScreenState extends State<AddScreen> {
                             context
                                 .read<ReceiptCubit>()
                                 .addReceipt(localreceipt);
-                            BlocProvider.value(
-                              value: sl<ReceiptCubit>()..getReceipt(),
-                              child: MainScreen(),
-                            );
 
                             Navigator.pop(context, true);
                           },
