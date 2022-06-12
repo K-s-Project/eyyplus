@@ -18,7 +18,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  bool isRefresh = false;
   final searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,8 +63,8 @@ class _MainScreenState extends State<MainScreen> {
                         width: 8,
                       ),
                       IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
+                        onPressed: () async {
+                          bool refresh = await Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => BlocProvider<ReceiptCubit>(
                                 create: (context) => sl<ReceiptCubit>(),
@@ -70,6 +72,10 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                             ),
                           );
+                          isRefresh = refresh;
+                          if (isRefresh) {
+                            context.read<ReceiptCubit>().getReceipt();
+                          }
                         },
                         icon: Iconify(
                           Carbon.document_add,

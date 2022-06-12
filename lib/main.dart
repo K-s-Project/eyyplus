@@ -15,8 +15,8 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(ReceiptModelAdapter());
   Hive.registerAdapter(ProductModelAdapter());
-  await Hive.openBox('pr');
-  await Hive.openBox('reshits');
+  await Hive.openBox('product_storage');
+  await Hive.openBox('aplus_receipt_storage');
   runApp(const MyApp());
 }
 

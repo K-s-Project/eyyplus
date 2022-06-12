@@ -1,5 +1,7 @@
 import 'package:eyyplus/domain/entity/productentity.dart';
+import 'package:eyyplus/presentation/screens/main_screen.dart';
 
+import '../../depedency.dart';
 import '../../domain/entity/receiptentity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +34,7 @@ class _AddScreenState extends State<AddScreen> {
   final _supplier = TextEditingController();
   int totalquantity = 0;
   double totalprice = 0;
+  double _totalprice = 0;
   @override
   void initState() {
     totalprice += widget.product?.price ?? 0;
@@ -63,6 +66,13 @@ class _AddScreenState extends State<AddScreen> {
                 formKey: const ValueKey('Receipt'),
                 radius: 0,
                 keyboard: TextInputType.number,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter the receipt no';
+                  } else {
+                    return null;
+                  }
+                },
               ),
               const SizedBox(height: 15),
               const CustomQuickSandText(text: 'Date'),
@@ -73,6 +83,13 @@ class _AddScreenState extends State<AddScreen> {
                 radius: 0,
                 color: const Color(0xff58739B).withOpacity(0.40),
                 formKey: const ValueKey('Date'),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter the date';
+                  } else {
+                    return null;
+                  }
+                },
                 suffix: IconButton(
                     onPressed: () async {
                       DateTime? datetime = await showDatePicker(
@@ -96,6 +113,13 @@ class _AddScreenState extends State<AddScreen> {
                 formKey: const ValueKey('Supplier'),
                 radius: 0,
                 color: const Color(0xff58739B).withOpacity(0.40),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter the supplier name';
+                  } else {
+                    return null;
+                  }
+                },
               ),
               const SizedBox(height: 15),
               const HDivider(
@@ -212,21 +236,25 @@ class _AddScreenState extends State<AddScreen> {
                           ),
                         );
                       } else {
-                        var val = await Navigator.push<ProductEntity>(context,
-                            MaterialPageRoute(builder: (context) {
-                          return SecondAddScreen(
-                            receipno: _receipt.text,
-                            date: _date.text,
-                            supplier: _supplier.text,
-                          );
-                        }));
+                        var val = await Navigator.push<ProductEntity>(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SecondAddScreen(
+                                      receipno: _receipt.text,
+                                      date: _date.text,
+                                      supplier: _supplier.text,
+                                    )));
 
                         if (val != null) {
                           products.add(val);
                           setState(() {});
+                          final discount = val.discount / 100;
+                          final multipliedprice = val.price * val.quantity;
+                          final discountvalue = multipliedprice * discount;
+                          totalprice = multipliedprice - discountvalue;
+                          _totalprice = _totalprice + totalprice;
+                          totalquantity = totalquantity + val.quantity;
                         }
-                        print('totalprice: $totalprice');
-                        print('price: ${widget.product?.price ?? 0}');
                       }
                     },
                     child: Container(
@@ -240,7 +268,7 @@ class _AddScreenState extends State<AddScreen> {
                               : 'ADD MORE PRODUCT +',
                           weight: FontWeight.w700,
                           size: 16,
-                          color: Color(0xffFFFFFF),
+                          color: const Color(0xffFFFFFF),
                         ),
                       ),
                     ),
@@ -256,20 +284,24 @@ class _AddScreenState extends State<AddScreen> {
                       width: MediaQuery.of(context).size.width,
                       child: Center(
                         child: InkWell(
-                          onTap: () {
+                          onTap: () async {
                             final localreceipt = ReceiptEntity(
                               receiptno: _receipt.text,
                               date: _date.text,
                               supplier: _supplier.text,
                               product: products,
                               totalquantity: totalquantity,
-                              totalprice: totalprice,
+                              totalprice: _totalprice,
                             );
                             context
                                 .read<ReceiptCubit>()
                                 .addReceipt(localreceipt);
-                            context.read<ReceiptCubit>().getReceipt();
-                            Navigator.pop(context);
+                            BlocProvider.value(
+                              value: sl<ReceiptCubit>()..getReceipt(),
+                              child: MainScreen(),
+                            );
+
+                            Navigator.pop(context, true);
                           },
                           child: Container(
                             height: 41,

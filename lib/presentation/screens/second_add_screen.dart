@@ -202,11 +202,11 @@ class _AddScreenState extends State<SecondAddScreen> {
                           if (pricekey.currentState!.validate()) {
                             if (_quantity.text.isEmpty) {
                               double total = double.parse(_price.text);
-                              _totalp.text = total.toString();
+                              _totalp.text = total.toStringAsFixed(2);
                             } else {
                               double total = double.parse(_price.text) *
                                   int.parse(_quantity.text);
-                              _totalp.text = total.toString();
+                              _totalp.text = total.toStringAsFixed(2);
                             }
                           } else {
                             _quantity.clear();
@@ -245,20 +245,20 @@ class _AddScreenState extends State<SecondAddScreen> {
                           if (_discount.text.isEmpty) {
                             final multipliedprice = double.parse(_price.text) *
                                 int.parse(_quantity.text);
-                            _totalp.text = multipliedprice.toString();
+                            _totalp.text = multipliedprice.toStringAsFixed(2);
                           } else {
                             final discount = int.parse(_discount.text) / 100;
                             final multipliedprice = double.parse(_price.text) *
                                 int.parse(_quantity.text);
                             final discountvalue = multipliedprice * discount;
                             _totalprice = multipliedprice - discountvalue;
-                            _totalp.text = _totalprice.toString();
+                            _totalp.text = _totalprice.toStringAsFixed(2);
                           }
                         });
                       },
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Please input 0 or above';
+                          return 'field cannot be empty!';
                         } else {
                           return null;
                         }
@@ -299,9 +299,7 @@ class _AddScreenState extends State<SecondAddScreen> {
                             int.parse(_quantity.text);
                         final discountvalue = multipliedprice * discount;
                         _totalprice = multipliedprice - discountvalue;
-                        totalprice = totalprice + _totalprice;
-                        print('total $totalprice');
-                        print('price: ${_totalprice}');
+
                         final product = ProductEntity(
                           product: _product.text,
                           price: double.parse(_price.text),
@@ -310,24 +308,13 @@ class _AddScreenState extends State<SecondAddScreen> {
                           discount: int.parse(_discount.text),
                         );
 
-                        // products.add(product);
-                        // totalquantity =
-                        //     totalquantity + int.parse(_quantity.text);
-                        // final receipt = ReceiptEntity(
-                        //   receiptno: _receipt.text,
-                        //   date: _date.text,
-                        //   supplier: _supplier.text,
-                        //   product: products,
-                        //   totalquantity: totalquantity,
-                        //   totalprice: totalprice,
-                        // );
                         _product.clear();
                         _price.clear();
                         _quantity.clear();
                         _discount.clear();
                         _totalp.clear();
                         setState(() {});
-                        print('before pop');
+
                         Navigator.pop(
                           context,
                           product,
