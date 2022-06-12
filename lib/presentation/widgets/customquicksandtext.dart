@@ -7,6 +7,7 @@ class CustomQuickSandText extends StatelessWidget {
   final FontWeight? weight;
   final Color? color;
   final TextOverflow? overflow;
+  final TextAlign? align;
   const CustomQuickSandText({
     Key? key,
     required this.text,
@@ -14,6 +15,7 @@ class CustomQuickSandText extends StatelessWidget {
     this.weight,
     this.color,
     this.overflow,
+    this.align,
   }) : super(key: key);
 
   @override
@@ -21,8 +23,12 @@ class CustomQuickSandText extends StatelessWidget {
     return Text(
       text,
       style: GoogleFonts.quicksand(
-          fontSize: size, fontWeight: weight, color: color),
+        fontSize: size,
+        fontWeight: weight,
+        color: color,
+      ),
       overflow: overflow,
+      textAlign: align,
     );
   }
 }

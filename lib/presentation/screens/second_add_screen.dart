@@ -5,12 +5,7 @@ import 'package:general/general.dart';
 import 'package:intl/intl.dart';
 
 import '../../domain/entity/productentity.dart';
-import '../../domain/entity/receiptentity.dart';
-import '../receipt_cubit/receipt_cubit.dart';
-import '../widgets/add_appbar.dart';
 import '../widgets/customquicksandtext.dart';
-
-import 'add_receipt_screen.dart';
 
 class SecondAddScreen extends StatefulWidget {
   final String receipno;
@@ -36,6 +31,7 @@ class _AddScreenState extends State<SecondAddScreen> {
   final _quantity = TextEditingController();
   final _discount = TextEditingController();
   final _totalp = TextEditingController();
+  final _unit = TextEditingController();
 
   @override
   void initState() {
@@ -57,15 +53,32 @@ class _AddScreenState extends State<SecondAddScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Color(0xffBE5108),
+          ),
+        ),
+        title: const CustomQuickSandText(
+          text: 'Receipt Detail',
+          weight: FontWeight.w700,
+          size: 18,
+          color: Colors.black,
+        ),
+        centerTitle: true,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 50),
-              const AddAppBar(),
-              const SizedBox(height: 20),
               const CustomQuickSandText(text: 'Receipt No.'),
               const SizedBox(height: 15),
               CustomTextField(
@@ -101,13 +114,19 @@ class _AddScreenState extends State<SecondAddScreen> {
               const SizedBox(height: 15),
               const CustomQuickSandText(text: 'Supplier Name'),
               const SizedBox(height: 15),
-              CustomTextField(
-                'Supplier Name',
-                controller: _supplier,
-                formKey: const ValueKey('Supplier'),
-                radius: 0,
-                color: const Color(0xff58739B).withOpacity(0.40),
-              ),
+              CustomTextField('Supplier Name',
+                  controller: _supplier,
+                  formKey: const ValueKey('Supplier'),
+                  radius: 0,
+                  color: const Color(0xff58739B).withOpacity(0.40),
+                  validator: (value) {
+                if (value!.isEmpty ||
+                    !RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
+                  return 'Enter the correct supplier name';
+                } else {
+                  return null;
+                }
+              }),
               const SizedBox(height: 15),
               const HDivider(
                 color: Color(0xffBE5108),
@@ -129,6 +148,14 @@ class _AddScreenState extends State<SecondAddScreen> {
                 formKey: const ValueKey('Product'),
                 radius: 0,
                 color: const Color(0xff58739B).withOpacity(0.40),
+                validator: (value) {
+                  if (value!.isEmpty ||
+                      !RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
+                    return 'Enter the valid product name';
+                  } else {
+                    return null;
+                  }
+                },
               ),
               const SizedBox(height: 15),
               Row(
@@ -202,11 +229,19 @@ class _AddScreenState extends State<SecondAddScreen> {
                           if (pricekey.currentState!.validate()) {
                             if (_quantity.text.isEmpty) {
                               double total = double.parse(_price.text);
-                              _totalp.text = total.toStringAsFixed(2);
+                              _totalp.text = NumberFormat.currency(
+                                locale: 'fil',
+                                symbol: '₱',
+                                decimalDigits: 2,
+                              ).format(total);
                             } else {
                               double total = double.parse(_price.text) *
                                   int.parse(_quantity.text);
-                              _totalp.text = total.toStringAsFixed(2);
+                              _totalp.text = NumberFormat.currency(
+                                locale: 'fil',
+                                symbol: '₱',
+                                decimalDigits: 2,
+                              ).format(total);
                             }
                           } else {
                             _quantity.clear();
@@ -245,23 +280,24 @@ class _AddScreenState extends State<SecondAddScreen> {
                           if (_discount.text.isEmpty) {
                             final multipliedprice = double.parse(_price.text) *
                                 int.parse(_quantity.text);
-                            _totalp.text = multipliedprice.toStringAsFixed(2);
+                            _totalp.text = NumberFormat.currency(
+                              locale: 'fil',
+                              symbol: '₱',
+                              decimalDigits: 2,
+                            ).format(multipliedprice);
                           } else {
                             final discount = int.parse(_discount.text) / 100;
                             final multipliedprice = double.parse(_price.text) *
                                 int.parse(_quantity.text);
                             final discountvalue = multipliedprice * discount;
                             _totalprice = multipliedprice - discountvalue;
-                            _totalp.text = _totalprice.toStringAsFixed(2);
+                            _totalp.text = NumberFormat.currency(
+                              locale: 'fil',
+                              symbol: '₱',
+                              decimalDigits: 2,
+                            ).format(_totalprice);
                           }
                         });
-                      },
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'field cannot be empty!';
-                        } else {
-                          return null;
-                        }
                       },
                       suffix: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -276,6 +312,20 @@ class _AddScreenState extends State<SecondAddScreen> {
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(
+                height: 17,
+              ),
+              const CustomQuickSandText(text: 'Unit'),
+              const SizedBox(
+                height: 4,
+              ),
+              CustomTextField(
+                'unit',
+                controller: _unit,
+                formKey: const ValueKey('Supplier'),
+                radius: 0,
+                color: const Color(0xff58739B).withOpacity(0.40),
               ),
               const SizedBox(height: 20),
               SizedBox(
@@ -293,6 +343,35 @@ class _AddScreenState extends State<SecondAddScreen> {
                             ),
                           ),
                         );
+                      }
+                      if (_discount.text.isEmpty) {
+                        final multipliedprice = double.parse(_price.text) *
+                            int.parse(_quantity.text);
+                        _totalp.text = NumberFormat.currency(
+                          locale: 'fil',
+                          symbol: '₱',
+                          decimalDigits: 2,
+                        ).format(multipliedprice);
+                        final product = ProductEntity(
+                          product: _product.text,
+                          price: double.parse(_price.text),
+                          totalprice: multipliedprice,
+                          quantity: int.parse(_quantity.text),
+                          discount: dc,
+                          unit: _unit.text,
+                        );
+
+                        _product.clear();
+                        _price.clear();
+                        _quantity.clear();
+                        _discount.clear();
+                        _totalp.clear();
+                        setState(() {});
+
+                        Navigator.pop(
+                          context,
+                          product,
+                        );
                       } else {
                         final discount = int.parse(_discount.text) / 100;
                         final multipliedprice = double.parse(_price.text) *
@@ -306,6 +385,7 @@ class _AddScreenState extends State<SecondAddScreen> {
                           totalprice: _totalprice,
                           quantity: int.parse(_quantity.text),
                           discount: int.parse(_discount.text),
+                          unit: _unit.text,
                         );
 
                         _product.clear();

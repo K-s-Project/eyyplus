@@ -1,7 +1,5 @@
 import 'package:eyyplus/domain/entity/productentity.dart';
-import 'package:eyyplus/presentation/screens/main_screen.dart';
 
-import '../../depedency.dart';
 import '../../domain/entity/receiptentity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +38,7 @@ class _AddScreenState extends State<AddScreen> {
     totalprice += widget.product?.price ?? 0;
     print('price: ${widget.product?.price ?? 0}');
     print('totalprice: $totalprice');
-    _date.text = DateFormat('dd MMM, yyyy - KK:mm a').format(DateTime.now());
+    _date.text = DateFormat('dd MMM yyyy, KK:mm a').format(DateTime.now());
     super.initState();
   }
 
@@ -49,17 +47,38 @@ class _AddScreenState extends State<AddScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 50),
-              const AddAppBar(),
-              const CustomQuickSandText(text: 'Receipt No.'),
-              const SizedBox(height: 15),
-              CustomTextField(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Color(0xffBE5108),
+          ),
+        ),
+        title: const CustomQuickSandText(
+          text: 'Receipt Detail',
+          weight: FontWeight.w700,
+          size: 18,
+          color: Colors.black,
+        ),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: CustomQuickSandText(text: 'Receipt No.'),
+            ),
+            const SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: CustomTextField(
                 'Receipt No.',
                 controller: _receipt,
                 color: const Color(0xff58739B).withOpacity(0.40),
@@ -74,10 +93,16 @@ class _AddScreenState extends State<AddScreen> {
                   }
                 },
               ),
-              const SizedBox(height: 15),
-              const CustomQuickSandText(text: 'Date'),
-              const SizedBox(height: 15),
-              CustomTextField(
+            ),
+            const SizedBox(height: 15),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: CustomQuickSandText(text: 'Date'),
+            ),
+            const SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: CustomTextField(
                 _date.text,
                 controller: _date,
                 radius: 0,
@@ -104,219 +129,225 @@ class _AddScreenState extends State<AddScreen> {
                     },
                     icon: const Icon(Icons.calendar_today)),
               ),
-              const SizedBox(height: 15),
-              const CustomQuickSandText(text: 'Supplier Name'),
-              const SizedBox(height: 15),
-              CustomTextField(
+            ),
+            const SizedBox(height: 15),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: CustomQuickSandText(text: 'Supplier Name'),
+            ),
+            const SizedBox(height: 15),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: CustomTextField(
                 'Supplier Name',
                 controller: _supplier,
                 formKey: const ValueKey('Supplier'),
                 radius: 0,
                 color: const Color(0xff58739B).withOpacity(0.40),
                 validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the supplier name';
+                  if (value!.isEmpty ||
+                      !RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
+                    return 'Enter the correct supplier name';
                   } else {
                     return null;
                   }
                 },
               ),
-              const SizedBox(height: 15),
-              const HDivider(
-                color: Color(0xffBE5108),
-                splitter: 50,
-                isDot: true,
-              ),
-              const SizedBox(height: 15),
-              const CustomQuickSandText(
+            ),
+            const SizedBox(height: 15),
+            const HDivider(
+              color: Color(0xffBE5108),
+              splitter: 50,
+              isDot: true,
+            ),
+            const SizedBox(height: 15),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: CustomQuickSandText(
                 text: 'Add Products',
                 weight: FontWeight.w700,
                 size: 16,
               ),
-              const SizedBox(height: 15),
-              products.isEmpty
-                  ? Container(
-                      height: 89,
-                      width: 428,
-                      color: const Color(0xff58739B).withOpacity(0.40),
-                      child: Center(
-                        child: CustomQuickSandText(
-                          text: 'No products yet.',
-                          weight: FontWeight.w700,
-                          size: 12,
-                          color: const Color(0xff000000).withOpacity(0.40),
-                        ),
+            ),
+            const SizedBox(height: 15),
+            products.isEmpty
+                ? Container(
+                    height: 89,
+                    width: 428,
+                    color: const Color(0xff58739B).withOpacity(0.40),
+                    child: Center(
+                      child: CustomQuickSandText(
+                        text: 'No products yet.',
+                        weight: FontWeight.w700,
+                        size: 12,
+                        color: const Color(0xff000000).withOpacity(0.40),
                       ),
-                    )
-                  : Column(
-                      children: products.map((product) {
-                        final isOdd = products.indexOf(product) % 2 == 0;
-                        return ListTile(
-                          tileColor: isOdd
-                              ? MAIN_COLOR.withOpacity(0.2)
-                              : Colors.white,
-                          title: CustomQuickSandText(
-                            text: product.product,
-                            weight: FontWeight.w700,
-                          ),
-                          trailing: CustomQuickSandText(
-                              text:
-                                  '₱${product.totalprice.toStringAsFixed(2)}'),
-                          subtitle: Row(
-                            children: [
-                              const SizedBox(height: 8),
-                              Container(
-                                width: 67,
-                                height: 19,
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color(0xff0CBE08).withOpacity(0.66),
-                                ),
-                                child: Center(
-                                  child: CustomQuickSandText(
-                                    text: "₱${product.price}",
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                width: 80,
-                                height: 19,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xff309FF0),
-                                ),
-                                child: Center(
-                                  child: CustomQuickSandText(
-                                      text: "${product.quantity} ITEMS",
-                                      color: Colors.white),
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                width: 67,
-                                height: 19,
-                                decoration: const BoxDecoration(
-                                  color: PRIMARY_COLOR,
-                                ),
-                                child: Center(
-                                  child: CustomQuickSandText(
-                                    text: "${product.discount}% OFF",
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                            ],
-                          ),
-                        );
-                      }).toList(),
                     ),
-              const SizedBox(
-                height: 15,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: InkWell(
-                    onTap: () async {
-                      if (_receipt.text.isEmpty ||
-                          _date.text.isEmpty ||
-                          _supplier.text.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: CustomQuickSandText(
-                              text: 'Please fill up the text field',
-                            ),
-                          ),
-                        );
-                      } else {
-                        var val = await Navigator.push<ProductEntity>(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SecondAddScreen(
-                                      receipno: _receipt.text,
-                                      date: _date.text,
-                                      supplier: _supplier.text,
-                                    )));
-
-                        if (val != null) {
-                          products.add(val);
-                          setState(() {});
-                          final discount = val.discount / 100;
-                          final multipliedprice = val.price * val.quantity;
-                          final discountvalue = multipliedprice * discount;
-                          totalprice = multipliedprice - discountvalue;
-                          _totalprice = _totalprice + totalprice;
-                          totalquantity = totalquantity + val.quantity;
-                        }
-                      }
-                    },
-                    child: Container(
-                      height: 41,
-                      width: 362,
-                      color: const Color(0xff58739B),
-                      child: Center(
-                        child: CustomQuickSandText(
-                          text: products.isEmpty
-                              ? 'ADD NEW PRODUCT +'
-                              : 'ADD MORE PRODUCT +',
+                  )
+                : Column(
+                    children: products.map((product) {
+                      final isOdd = products.indexOf(product) % 2 == 0;
+                      return ListTile(
+                        tileColor:
+                            isOdd ? MAIN_COLOR.withOpacity(0.2) : Colors.white,
+                        title: CustomQuickSandText(
+                          text: product.product,
                           weight: FontWeight.w700,
-                          size: 16,
-                          color: const Color(0xffFFFFFF),
                         ),
+                        trailing: CustomQuickSandText(
+                            text: '₱${product.totalprice.toStringAsFixed(2)}'),
+                        subtitle: Row(
+                          children: [
+                            const SizedBox(height: 8),
+                            Container(
+                              width: 67,
+                              height: 19,
+                              decoration: BoxDecoration(
+                                color:
+                                    const Color(0xff0CBE08).withOpacity(0.66),
+                              ),
+                              child: Center(
+                                child: CustomQuickSandText(
+                                  text: "₱${product.price}",
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              width: 80,
+                              height: 19,
+                              decoration: const BoxDecoration(
+                                color: Color(0xff309FF0),
+                              ),
+                              child: Center(
+                                child: CustomQuickSandText(
+                                    text: "${product.quantity} ITEMS",
+                                    color: Colors.white),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              width: 67,
+                              height: 19,
+                              decoration: const BoxDecoration(
+                                color: PRIMARY_COLOR,
+                              ),
+                              child: Center(
+                                child: CustomQuickSandText(
+                                  text: "${product.discount}% OFF",
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+            const SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: InkWell(
+                  onTap: () async {
+                    if (_receipt.text.isEmpty ||
+                        _date.text.isEmpty ||
+                        _supplier.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: CustomQuickSandText(
+                            text: 'Please fill up the text field',
+                          ),
+                        ),
+                      );
+                    } else {
+                      var val = await Navigator.push<ProductEntity>(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SecondAddScreen(
+                                    receipno: _receipt.text,
+                                    date: _date.text,
+                                    supplier: _supplier.text,
+                                  )));
+
+                      if (val != null) {
+                        products.add(val);
+                        setState(() {});
+                        final discount = val.discount / 100;
+                        final multipliedprice = val.price * val.quantity;
+                        final discountvalue = multipliedprice * discount;
+                        totalprice = multipliedprice - discountvalue;
+                        _totalprice = _totalprice + totalprice;
+                        totalquantity = totalquantity + val.quantity;
+                      }
+                    }
+                  },
+                  child: Container(
+                    height: 41,
+                    width: 362,
+                    color: const Color(0xff58739B),
+                    child: Center(
+                      child: CustomQuickSandText(
+                        text: products.isEmpty
+                            ? 'ADD NEW PRODUCT +'
+                            : 'ADD MORE PRODUCT +',
+                        weight: FontWeight.w700,
+                        size: 16,
+                        color: const Color(0xffFFFFFF),
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              products.isEmpty
-                  ? const SizedBox.shrink()
-                  : SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: InkWell(
-                          onTap: () async {
-                            final localreceipt = ReceiptEntity(
-                              receiptno: _receipt.text,
-                              date: _date.text,
-                              supplier: _supplier.text,
-                              product: products,
-                              totalquantity: totalquantity,
-                              totalprice: _totalprice,
-                            );
-                            context
-                                .read<ReceiptCubit>()
-                                .addReceipt(localreceipt);
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            products.isEmpty
+                ? const SizedBox.shrink()
+                : SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(
+                      child: InkWell(
+                        onTap: () async {
+                          final localreceipt = ReceiptEntity(
+                            receiptno: _receipt.text,
+                            date: _date.text,
+                            supplier: _supplier.text,
+                            product: products,
+                            totalquantity: totalquantity,
+                            totalprice: _totalprice,
+                          );
+                          context.read<ReceiptCubit>().addReceipt(localreceipt);
 
-                            Navigator.pop(context, true);
-                          },
-                          child: Container(
-                            height: 41,
-                            width: 362,
-                            color: const Color(0xff58739B),
-                            child: const Center(
-                              child: CustomQuickSandText(
-                                text: 'SUBMIT RECEIPT',
-                                weight: FontWeight.w700,
-                                size: 16,
-                                color: Color(0xffFFFFFF),
-                              ),
+                          Navigator.pop(context, true);
+                        },
+                        child: Container(
+                          height: 41,
+                          width: 362,
+                          color: const Color(0xff58739B),
+                          child: const Center(
+                            child: CustomQuickSandText(
+                              text: 'SUBMIT RECEIPT',
+                              weight: FontWeight.w700,
+                              size: 16,
+                              color: Color(0xffFFFFFF),
                             ),
                           ),
                         ),
                       ),
                     ),
-            ],
-          ),
+                  ),
+          ],
         ),
       ),
     );

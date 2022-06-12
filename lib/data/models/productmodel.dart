@@ -16,18 +16,22 @@ class ProductModel extends ProductEntity {
   final int quantity;
   @HiveField(4)
   final int discount;
+  @HiveField(5)
+  final String unit;
   ProductModel({
     required this.product,
     required this.price,
     required this.totalprice,
     required this.quantity,
     required this.discount,
+    required this.unit,
   }) : super(
           product: product,
           price: price,
           totalprice: totalprice,
           quantity: quantity,
           discount: discount,
+          unit: unit,
         );
   factory ProductModel.fromEntity(ProductEntity entity) {
     return ProductModel(
@@ -36,6 +40,7 @@ class ProductModel extends ProductEntity {
       totalprice: entity.totalprice,
       quantity: entity.quantity,
       discount: entity.discount,
+      unit: entity.unit,
     );
   }
 }

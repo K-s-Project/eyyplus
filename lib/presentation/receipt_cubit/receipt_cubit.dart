@@ -39,9 +39,19 @@ class ReceiptCubit extends Cubit<ReceiptState> {
     await _addReceipt.call(receipt: receipt);
   }
 
+  void delete(String receiptno) async {
+    await _deleteReceipt.call(receiptno: receiptno);
+  }
+
   void searchReceipts(String text) async {
     emit(Loading());
     final either = await _getSpecificReceipt.call(text);
-    either.fold((l) => emit(Error()), (r) => emit(Loaded(receipts: r)));
+    either.fold((l) => emit(Error()), (r) {
+      if (r.isEmpty) {
+        emit(Empty(msg: 'no result'));
+      } else {
+        emit(Loaded(receipts: r));
+      }
+    });
   }
 }
