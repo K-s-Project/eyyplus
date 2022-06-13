@@ -1,3 +1,6 @@
+import 'package:eyyplus/data/datasource/local_data_source.dart';
+import 'package:eyyplus/data/models/product_suggestion.dart';
+
 import 'core/color/color.dart';
 import 'presentation/receipt_cubit/receipt_cubit.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +16,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
   await Hive.initFlutter();
+  Hive.registerAdapter(ProductSuggestionModelAdapter());
   Hive.registerAdapter(ReceiptModelAdapter());
   Hive.registerAdapter(ProductModelAdapter());
-  await Hive.openBox('product_storage_edited');
-  await Hive.openBox('aplus_receipt_edited');
+  await Hive.openBox('products_suggestion3');
+  await Hive.openBox('product_storage_edite3');
+  await Hive.openBox('aplus_receipt_edited4');
+
   runApp(const MyApp());
 }
 

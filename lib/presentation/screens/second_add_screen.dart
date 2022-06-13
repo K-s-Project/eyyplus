@@ -1,8 +1,10 @@
-import '../../depedency.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:general/general.dart';
 import 'package:intl/intl.dart';
+
+import 'package:eyyplus/domain/entity/receiptentity.dart';
 
 import '../../domain/entity/productentity.dart';
 import '../widgets/customquicksandtext.dart';
@@ -32,7 +34,6 @@ class _AddScreenState extends State<SecondAddScreen> {
   final _discount = TextEditingController();
   final _totalp = TextEditingController();
   final _unit = TextEditingController();
-
   @override
   void initState() {
     _receipt.text = widget.receipno;
@@ -41,7 +42,38 @@ class _AddScreenState extends State<SecondAddScreen> {
     super.initState();
   }
 
-  List<ProductEntity> products = [];
+  List<String> products = [
+    'test1',
+    'test2',
+    'test3',
+    'test4',
+    'test5',
+    'test6',
+    'test7',
+  ];
+
+  List<String> getSuggestions(String query) {
+    List<String> matches = [];
+    matches.addAll(products);
+    matches.retainWhere(
+        (element) => element.toLowerCase().contains(query.toLowerCase()));
+    return matches;
+  }
+
+  // List<ReceiptEntity> searchproduct(String query) {
+  //   final suggestions = (widget.receipts ?? []).where((receipt) {
+  //     final products = receipt.product.where((product) {
+  //       final _product = product.product.toLowerCase();
+  //       final input = query.toLowerCase();
+  //       print(input);
+  //       return _product.contains(input);
+  //     }).toList();
+  //     return products.isNotEmpty ? true : false;
+  //   }).toList();
+  //   storage = suggestions;
+  //   return storage;
+  // }
+
   int totalquantity = 0;
   double totalprice = 0;
   double _totalprice = 0;
@@ -50,6 +82,7 @@ class _AddScreenState extends State<SecondAddScreen> {
   double zero = 0;
   var pricekey = GlobalKey<FormState>();
   var quankey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,19 +175,19 @@ class _AddScreenState extends State<SecondAddScreen> {
               const SizedBox(height: 15),
               const CustomQuickSandText(text: 'Product Name'),
               const SizedBox(height: 15),
-              CustomTextField(
-                'Product Name',
-                controller: _product,
-                formKey: const ValueKey('Product'),
-                radius: 0,
-                color: const Color(0xff58739B).withOpacity(0.40),
-                validator: (value) {
-                  if (value!.isEmpty ||
-                      !RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
-                    return 'Enter the valid product name';
-                  } else {
-                    return null;
-                  }
+              TypeAheadFormField(
+                textFieldConfiguration:
+                    TextFieldConfiguration(controller: _product),
+                onSuggestionSelected: (String? suggestion) {
+                  setState(() {
+                    _product.text = suggestion!;
+                  });
+                },
+                itemBuilder: (context, String suggestion) {
+                  return Text(suggestion);
+                },
+                suggestionsCallback: (value) {
+                  return getSuggestions(value);
                 },
               ),
               const SizedBox(height: 15),
@@ -393,6 +426,7 @@ class _AddScreenState extends State<SecondAddScreen> {
                         _quantity.clear();
                         _discount.clear();
                         _totalp.clear();
+
                         setState(() {});
 
                         Navigator.pop(

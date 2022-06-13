@@ -1,16 +1,17 @@
-import 'package:eyyplus/domain/entity/productentity.dart';
-
-import '../../domain/entity/receiptentity.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:general/general.dart';
 import 'package:intl/intl.dart';
-import '../receipt_cubit/receipt_cubit.dart';
-import '../widgets/add_appbar.dart';
-import 'second_add_screen.dart';
-import '../widgets/customquicksandtext.dart';
+
+import 'package:eyyplus/depedency.dart';
+import 'package:eyyplus/domain/entity/productentity.dart';
 
 import '../../core/color/color.dart';
+import '../../domain/entity/receiptentity.dart';
+import '../receipt_cubit/receipt_cubit.dart';
+import '../widgets/customquicksandtext.dart';
+import 'second_add_screen.dart';
 
 class AddScreen extends StatefulWidget {
   final ProductEntity? product;
@@ -273,10 +274,13 @@ class _AddScreenState extends State<AddScreen> {
                       var val = await Navigator.push<ProductEntity>(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SecondAddScreen(
-                                    receipno: _receipt.text,
-                                    date: _date.text,
-                                    supplier: _supplier.text,
+                              builder: (context) => BlocProvider<ReceiptCubit>(
+                                    create: (context) => sl<ReceiptCubit>(),
+                                    child: SecondAddScreen(
+                                      receipno: _receipt.text,
+                                      date: _date.text,
+                                      supplier: _supplier.text,
+                                    ),
                                   )));
 
                       if (val != null) {

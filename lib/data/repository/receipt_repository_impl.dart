@@ -1,3 +1,6 @@
+import 'package:eyyplus/data/models/product_suggestion.dart';
+import 'package:eyyplus/domain/entity/product_suggestion.dart';
+
 import '../../core/error/cacheexception.dart';
 import '../../core/error/cachefailure.dart';
 import '../datasource/local_data_source.dart';
@@ -37,6 +40,22 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
       String text) async {
     try {
       final result = await local.getSpecificReceipt(text);
+      return Right(result);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<void> addProducts(ProductSuggestionEntity products) async {
+    await local.addProducts(ProductSuggestionModel.fromEntity(products));
+  }
+
+  @override
+  Future<Either<CacheFailure, List<ProductSuggestionEntity>>> showSuggestions(
+      String search) async {
+    try {
+      final result = await local.showSuggestions(search);
       return Right(result);
     } on CacheException {
       return Left(CacheFailure());

@@ -1,3 +1,4 @@
+import 'package:eyyplus/domain/entity/receiptentity.dart';
 import 'package:intl/intl.dart';
 
 import '../receipt_cubit/receipt_cubit.dart';

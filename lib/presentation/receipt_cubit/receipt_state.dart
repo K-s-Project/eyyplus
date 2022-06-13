@@ -14,6 +14,13 @@ class Loaded extends ReceiptState {
   });
 }
 
+class SuggestionLoaded extends ReceiptState {
+  final List<ProductSuggestionEntity> suggestions;
+  SuggestionLoaded({
+    required this.suggestions,
+  });
+}
+
 class Error extends ReceiptState {}
 
 class Empty extends ReceiptState {
