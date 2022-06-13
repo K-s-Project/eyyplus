@@ -48,7 +48,7 @@ dependencies:
     git:
       url: https://github.com/FlutterStation/general
   dartz: ^0.10.1
-  searchfield: ^0.5.4
+  searchfield: ^0.6.6
   flutter_typeahead: ^4.0.0
 
 dev_dependencies:

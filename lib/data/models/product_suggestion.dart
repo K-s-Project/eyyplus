@@ -7,19 +7,19 @@ part 'product_suggestion.g.dart';
 @HiveType(typeId: 2)
 class ProductSuggestionModel extends ProductSuggestionEntity {
   @HiveField(0)
-  final List<String> suggestions;
+  final String suggestion;
   final String receiptno;
   ProductSuggestionModel({
-    required this.suggestions,
+    required this.suggestion,
     required this.receiptno,
   }) : super(
-          suggestions: suggestions,
+          suggestion: suggestion,
           receiptno: receiptno,
         );
 
   factory ProductSuggestionModel.fromEntity(ProductSuggestionEntity product) {
     return ProductSuggestionModel(
-      suggestions: product.suggestions,
+      suggestion: product.suggestion,
       receiptno: product.receiptno,
     );
   }

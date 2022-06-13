@@ -640,7 +640,7 @@ packages:
       name: searchfield
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.6"
+    version: "0.6.6"
   shelf:
     dependency: transitive
     description:

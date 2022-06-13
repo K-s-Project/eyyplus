@@ -10,12 +10,12 @@ abstract class LocalDataSource {
   Future<void> deleteReceipt({required String receiptno});
   Future<List<ReceiptModel>> getSpecificReceipt(String text);
   Future<void> addProducts(ProductSuggestionModel products);
-  Future<List<ProductSuggestionModel>> showSuggestions(String search);
+  Future<List<ProductSuggestionModel>> showSuggestions(String query);
 }
 
 class LocalDataSourceImpl implements LocalDataSource {
-  final box = Hive.box('aplus_receipt_edited4');
-  final suggestionBox = Hive.box('products_suggestion3');
+  final box = Hive.box('aplus_receipt_edited6');
+  final suggestionBox = Hive.box('products_suggestions6');
   @override
   Future<void> addReceipt(ReceiptModel receipt) async {
     await box.put(receipt.receiptno, receipt);
@@ -55,23 +55,19 @@ class LocalDataSourceImpl implements LocalDataSource {
 
   @override
   Future<void> addProducts(ProductSuggestionModel products) async {
-    await box.put(products.receiptno, products);
+    await suggestionBox.put(products.suggestion, products);
   }
 
   @override
-  Future<List<ProductSuggestionModel>> showSuggestions(String search) async {
+  Future<List<ProductSuggestionModel>> showSuggestions(String query) async {
     var cachedReceipt = suggestionBox.values.toList();
     final convertedTable = cachedReceipt.map((e) {
       return ProductSuggestionModel.fromEntity(e);
     }).toList();
-    final result = convertedTable.where((p) {
-      print('p: $p');
-      final product = p.suggestions.where((prod) {
-        final name = prod.toLowerCase();
-        return name.contains(search.toLowerCase());
-      }).toList();
-      return product.isEmpty ? false : true;
-    }).toList();
-    return result;
+    List<ProductSuggestionModel> matches = [];
+    matches.addAll(convertedTable);
+    matches.retainWhere(
+        (element) => element.suggestion.toLowerCase().contains(query));
+    return matches;
   }
 }

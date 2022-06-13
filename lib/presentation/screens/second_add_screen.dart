@@ -1,10 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:eyyplus/data/datasource/local_data_source.dart';
+import 'package:eyyplus/domain/entity/product_suggestion.dart';
+import 'package:eyyplus/presentation/receipt_cubit/receipt_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:general/general.dart';
 import 'package:intl/intl.dart';
 
 import 'package:eyyplus/domain/entity/receiptentity.dart';
+import 'package:searchfield/searchfield.dart';
 
 import '../../domain/entity/productentity.dart';
 import '../widgets/customquicksandtext.dart';
@@ -25,6 +30,7 @@ class SecondAddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<SecondAddScreen> {
+  LocalDataSourceImpl local = LocalDataSourceImpl();
   final _receipt = TextEditingController();
   final _date = TextEditingController();
   final _supplier = TextEditingController();
@@ -175,21 +181,42 @@ class _AddScreenState extends State<SecondAddScreen> {
               const SizedBox(height: 15),
               const CustomQuickSandText(text: 'Product Name'),
               const SizedBox(height: 15),
-              TypeAheadFormField(
-                textFieldConfiguration:
-                    TextFieldConfiguration(controller: _product),
-                onSuggestionSelected: (String? suggestion) {
-                  setState(() {
-                    _product.text = suggestion!;
-                  });
+              TypeAheadField<ProductSuggestionEntity>(
+                suggestionsCallback: (query) async {
+                  return await local.showSuggestions(query);
                 },
-                itemBuilder: (context, String suggestion) {
-                  return Text(suggestion);
+                itemBuilder: (context, suggestion) {
+                  return Text(
+                    suggestion.suggestion,
+                  );
                 },
-                suggestionsCallback: (value) {
-                  return getSuggestions(value);
+                onSuggestionSelected: (suggestion) {
+                  print(suggestion);
+                  setState(
+                    () {
+                      _product.text = suggestion.suggestion;
+                    },
+                  );
                 },
+                textFieldConfiguration: TextFieldConfiguration(
+                  controller: _product,
+                ),
               ),
+              // TypeAheadFormField(
+              //   textFieldConfiguration:
+              //       TextFieldConfiguration(controller: _product),
+              //   onSuggestionSelected: (String? suggestion) {
+              //     setState(() {
+              //       _product.text = suggestion!;
+              //     });
+              //   },
+              //   itemBuilder: (context, String suggestion) {
+              //     return Text(suggestion);
+              //   },
+              //   suggestionsCallback: (value) {
+              //     return getSuggestions(value);
+              //   },
+              // ),
               const SizedBox(height: 15),
               Row(
                 children: const [
@@ -393,7 +420,10 @@ class _AddScreenState extends State<SecondAddScreen> {
                           discount: dc,
                           unit: _unit.text,
                         );
-
+                        final productSugg = ProductSuggestionEntity(
+                            suggestion: _product.text,
+                            receiptno: _receipt.text);
+                        context.read<ReceiptCubit>().addProduct(productSugg);
                         _product.clear();
                         _price.clear();
                         _quantity.clear();
@@ -420,7 +450,10 @@ class _AddScreenState extends State<SecondAddScreen> {
                           discount: int.parse(_discount.text),
                           unit: _unit.text,
                         );
-
+                        final productSugg = ProductSuggestionEntity(
+                            suggestion: _product.text,
+                            receiptno: _receipt.text);
+                        context.read<ReceiptCubit>().addProduct(productSugg);
                         _product.clear();
                         _price.clear();
                         _quantity.clear();

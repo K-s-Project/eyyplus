@@ -11,6 +11,6 @@ abstract class ReceiptRepository {
   Future<Either<CacheFailure, List<ReceiptEntity>>> getSpecificReceipt(
       String text);
   Future<Either<CacheFailure, List<ProductSuggestionEntity>>> showSuggestions(
-      String search);
+      String query);
   Future<void> addProducts(ProductSuggestionEntity products);
 }

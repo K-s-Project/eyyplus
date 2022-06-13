@@ -18,7 +18,7 @@ class ProductSuggestionModelAdapter
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ProductSuggestionModel(
-      suggestions: (fields[0] as List).cast<String>(),
+      suggestion: fields[0] as String,
       receiptno: fields[1] as String,
     );
   }
@@ -28,7 +28,7 @@ class ProductSuggestionModelAdapter
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.suggestions)
+      ..write(obj.suggestion)
       ..writeByte(1)
       ..write(obj.receiptno);
   }

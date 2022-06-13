@@ -19,9 +19,9 @@ void main() async {
   Hive.registerAdapter(ProductSuggestionModelAdapter());
   Hive.registerAdapter(ReceiptModelAdapter());
   Hive.registerAdapter(ProductModelAdapter());
-  await Hive.openBox('products_suggestion3');
-  await Hive.openBox('product_storage_edite3');
-  await Hive.openBox('aplus_receipt_edited4');
+  await Hive.openBox('products_suggestions6');
+  await Hive.openBox('product_storage_edite6');
+  await Hive.openBox('aplus_receipt_edited6');
 
   runApp(const MyApp());
 }

@@ -53,9 +53,9 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
 
   @override
   Future<Either<CacheFailure, List<ProductSuggestionEntity>>> showSuggestions(
-      String search) async {
+      String query) async {
     try {
-      final result = await local.showSuggestions(search);
+      final result = await local.showSuggestions(query);
       return Right(result);
     } on CacheException {
       return Left(CacheFailure());
