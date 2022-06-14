@@ -6,8 +6,10 @@ part 'product_suggestion.g.dart';
 
 @HiveType(typeId: 2)
 class ProductSuggestionModel extends ProductSuggestionEntity {
+  @override
   @HiveField(0)
   final String suggestion;
+  @override
   final String receiptno;
   ProductSuggestionModel({
     required this.suggestion,

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:general/general.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../domain/entity/productentity.dart';
@@ -98,13 +99,11 @@ class _AddScreenState extends State<SecondAddScreen> {
               const SizedBox(height: 15),
               const CustomQuickSandText(text: 'Date'),
               const SizedBox(height: 15),
-              CustomTextField(
-                'Date',
+              TextField(
+                readOnly: true,
                 controller: _date,
-                radius: 0,
-                color: const Color(0xff58739B).withOpacity(0.40),
-                formKey: const ValueKey('Date'),
-                suffix: IconButton(
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
                     onPressed: () async {
                       DateTime? datetime = await showDatePicker(
                         context: context,
@@ -113,10 +112,48 @@ class _AddScreenState extends State<SecondAddScreen> {
                         lastDate: DateTime(2050),
                       );
                       setState(() {
-                        _date.text = DateFormat().format(datetime!);
+                        _date.text = DateFormat('dd MMM yyyy, KK:mm a')
+                            .format(datetime!);
                       });
                     },
-                    icon: const Icon(Icons.calendar_today)),
+                    icon: const Icon(Icons.calendar_today),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                  filled: true,
+                  fillColor: const Color(0xff58739B).withOpacity(0.2),
+                  focusColor: const Color(0xff58739B),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                    borderSide: const BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                    borderSide: BorderSide(
+                      color: const Color(0xff58739B).withOpacity(0.2),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                    borderSide: const BorderSide(style: BorderStyle.none),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                    borderSide: const BorderSide(color: Colors.grey),
+                  ),
+                  hintText: _date.text,
+                  hintStyle: GoogleFonts.quicksand(
+                    color: Colors.grey,
+                  ),
+                ),
+                style: GoogleFonts.quicksand(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 15),
               const CustomQuickSandText(text: 'Supplier Name'),
@@ -227,9 +264,9 @@ class _AddScreenState extends State<SecondAddScreen> {
               ),
               const SizedBox(height: 15),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [
                   CustomQuickSandText(text: 'Price'),
-                  SizedBox(width: 195),
                   CustomQuickSandText(text: 'Total Price')
                 ],
               ),
@@ -276,9 +313,9 @@ class _AddScreenState extends State<SecondAddScreen> {
               ),
               const SizedBox(height: 15),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [
                   CustomQuickSandText(text: 'Quantity'),
-                  SizedBox(width: 170),
                   CustomQuickSandText(text: 'Discount')
                 ],
               ),
@@ -477,22 +514,26 @@ class _AddScreenState extends State<SecondAddScreen> {
                         );
                       }
                     },
-                    child: Container(
-                      height: 41,
-                      width: 362,
-                      color: const Color(0xff58739B),
-                      child: const Center(
-                        child: CustomQuickSandText(
-                          text: 'ADD THIS TO RECEIPT',
-                          weight: FontWeight.w700,
-                          size: 16,
-                          color: Color(0xffFFFFFF),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Container(
+                        height: 41,
+                        width: double.infinity,
+                        color: const Color(0xff58739B),
+                        child: const Center(
+                          child: CustomQuickSandText(
+                            text: 'ADD THIS TO RECEIPT',
+                            weight: FontWeight.w700,
+                            size: 16,
+                            color: Color(0xffFFFFFF),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
+              const SizedBox(height: 25),
             ],
           ),
         ),

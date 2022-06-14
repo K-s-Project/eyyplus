@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:general/general.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'package:eyyplus/depedency.dart';
@@ -101,20 +102,11 @@ class _AddScreenState extends State<AddScreen> {
             const SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: CustomTextField(
-                _date.text,
+              child: TextField(
+                readOnly: true,
                 controller: _date,
-                radius: 0,
-                color: const Color(0xff58739B).withOpacity(0.40),
-                formKey: const ValueKey('Date'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the date';
-                  } else {
-                    return null;
-                  }
-                },
-                suffix: IconButton(
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
                     onPressed: () async {
                       DateTime? datetime = await showDatePicker(
                         context: context,
@@ -123,10 +115,48 @@ class _AddScreenState extends State<AddScreen> {
                         lastDate: DateTime(2050),
                       );
                       setState(() {
-                        _date.text = DateFormat().format(datetime!);
+                        _date.text = DateFormat('dd MMM yyyy, KK:mm a')
+                            .format(datetime!);
                       });
                     },
-                    icon: const Icon(Icons.calendar_today)),
+                    icon: const Icon(Icons.calendar_today),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                  filled: true,
+                  fillColor: const Color(0xff58739B).withOpacity(0.2),
+                  focusColor: const Color(0xff58739B),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                    borderSide: const BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                    borderSide: BorderSide(
+                      color: const Color(0xff58739B).withOpacity(0.2),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                    borderSide: const BorderSide(style: BorderStyle.none),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                    borderSide: const BorderSide(color: Colors.grey),
+                  ),
+                  hintText: _date.text,
+                  hintStyle: GoogleFonts.quicksand(
+                    color: Colors.grey,
+                  ),
+                ),
+                style: GoogleFonts.quicksand(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
             const SizedBox(height: 15),
@@ -172,7 +202,7 @@ class _AddScreenState extends State<AddScreen> {
             products.isEmpty
                 ? Container(
                     height: 89,
-                    width: 428,
+                    width: double.infinity,
                     color: const Color(0xff58739B).withOpacity(0.40),
                     child: Center(
                       child: CustomQuickSandText(
@@ -293,18 +323,21 @@ class _AddScreenState extends State<AddScreen> {
                       }
                     }
                   },
-                  child: Container(
-                    height: 41,
-                    width: 362,
-                    color: const Color(0xff58739B),
-                    child: Center(
-                      child: CustomQuickSandText(
-                        text: products.isEmpty
-                            ? 'ADD NEW PRODUCT +'
-                            : 'ADD MORE PRODUCT +',
-                        weight: FontWeight.w700,
-                        size: 16,
-                        color: const Color(0xffFFFFFF),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Container(
+                      height: 41,
+                      width: double.infinity,
+                      color: const Color(0xff58739B),
+                      child: Center(
+                        child: CustomQuickSandText(
+                          text: products.isEmpty
+                              ? 'ADD NEW PRODUCT +'
+                              : 'ADD MORE PRODUCT +',
+                          weight: FontWeight.w700,
+                          size: 16,
+                          color: const Color(0xffFFFFFF),
+                        ),
                       ),
                     ),
                   ),
@@ -333,22 +366,26 @@ class _AddScreenState extends State<AddScreen> {
 
                           Navigator.pop(context, true);
                         },
-                        child: Container(
-                          height: 41,
-                          width: 362,
-                          color: const Color(0xff58739B),
-                          child: const Center(
-                            child: CustomQuickSandText(
-                              text: 'SUBMIT RECEIPT',
-                              weight: FontWeight.w700,
-                              size: 16,
-                              color: Color(0xffFFFFFF),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Container(
+                            height: 41,
+                            width: double.infinity,
+                            color: const Color(0xff58739B),
+                            child: const Center(
+                              child: CustomQuickSandText(
+                                text: 'SUBMIT RECEIPT',
+                                weight: FontWeight.w700,
+                                size: 16,
+                                color: Color(0xffFFFFFF),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
+            const SizedBox(height: 25),
           ],
         ),
       ),
