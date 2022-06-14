@@ -265,6 +265,7 @@ class _AddScreenState extends State<SecondAddScreen> {
               Row(
                 children: const [
                   Expanded(child: CustomQuickSandText(text: 'Price')),
+                  SizedBox(width: 15),
                   Expanded(child: CustomQuickSandText(text: 'Total Price'))
                 ],
               ),
@@ -298,7 +299,7 @@ class _AddScreenState extends State<SecondAddScreen> {
                       keyboard: TextInputType.number,
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 15),
                   Expanded(
                     child: CustomTextField(
                       'Total Price',
@@ -313,6 +314,7 @@ class _AddScreenState extends State<SecondAddScreen> {
               Row(
                 children: const [
                   Expanded(child: CustomQuickSandText(text: 'Quantity')),
+                  SizedBox(width: 15),
                   Expanded(child: CustomQuickSandText(text: 'Discount'))
                 ],
               ),
@@ -369,7 +371,7 @@ class _AddScreenState extends State<SecondAddScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 15),
                   Expanded(
                     child: CustomTextField(
                       'Discount',
