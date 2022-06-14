@@ -7,16 +7,22 @@ part 'receiptmodel.g.dart';
 
 @HiveType(typeId: 0)
 class ReceiptModel extends ReceiptEntity {
+  @override
   @HiveField(0)
   final String receiptno;
+  @override
   @HiveField(1)
   final String date;
+  @override
   @HiveField(2)
   final String supplier;
+  @override
   @HiveField(3)
   final List<ProductModel> product;
+  @override
   @HiveField(4)
   final int totalquantity;
+  @override
   @HiveField(5)
   final double totalprice;
   ReceiptModel({

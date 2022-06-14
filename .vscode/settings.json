@@ -1,3 +1,4 @@
 {
-    "dart.previewHotReloadOnSaveWatcher": true
+    "dart.previewHotReloadOnSaveWatcher": true,
+    "nuxt.isNuxtApp": false
 }
