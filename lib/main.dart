@@ -1,18 +1,17 @@
-import 'data/datasource/local_data_source.dart';
-import 'data/models/product_suggestion.dart';
-
-import 'core/color/color.dart';
-import 'presentation/receipt_cubit/receipt_cubit.dart';
 import 'package:flutter/material.dart';
-import 'data/models/productmodel.dart';
-import 'presentation/screens/main_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'depedency.dart' as di;
-import 'data/models/receiptmodel.dart';
-import 'depedency.dart';
 
-void main() async {
+import 'core/color/color.dart';
+import 'data/models/product_suggestion.dart';
+import 'data/models/productmodel.dart';
+import 'data/models/receiptmodel.dart';
+import 'depedency.dart' as di;
+import 'depedency.dart';
+import 'presentation/receipt_cubit/receipt_cubit.dart';
+import 'presentation/screens/main_screen.dart';
+
+main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
   await Hive.initFlutter();

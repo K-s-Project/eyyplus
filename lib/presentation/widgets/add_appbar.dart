@@ -1,12 +1,13 @@
-import 'customquicksandtext.dart';
 import 'package:flutter/material.dart';
+
+import 'customquicksandtext.dart';
 
 class AddAppBar extends StatelessWidget {
   const AddAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 40,
       width: MediaQuery.of(context).size.width,
       child: Row(

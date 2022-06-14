@@ -10,14 +10,14 @@ class Searchbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 34,
       width: 270,
       child: CustomTextField(
         'search something...',
         controller: controller,
         radius: 15,
-        color: Color(0xff58739B).withOpacity(0.40),
+        color: const Color(0xff58739B).withOpacity(0.40),
       ),
     );
   }

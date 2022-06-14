@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import '../entity/product_suggestion.dart';
 
 import '../../core/error/cachefailure.dart';
+import '../entity/product_suggestion.dart';
 import '../entity/receiptentity.dart';
 
 abstract class ReceiptRepository {

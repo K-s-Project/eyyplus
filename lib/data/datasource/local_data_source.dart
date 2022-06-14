@@ -1,6 +1,6 @@
-import '../models/product_suggestion.dart';
 import 'package:hive/hive.dart';
 
+import '../models/product_suggestion.dart';
 import '../models/receiptmodel.dart';
 
 abstract class LocalDataSource {

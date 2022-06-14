@@ -1,14 +1,14 @@
-import 'domain/usecase/add_products.dart';
-import 'data/datasource/local_data_source.dart';
-import 'domain/repository/receipt_repository.dart';
-import 'domain/usecase/get_receipt.dart';
-import 'presentation/receipt_cubit/receipt_cubit.dart';
 import 'package:get_it/get_it.dart';
 
+import 'data/datasource/local_data_source.dart';
 import 'data/repository/receipt_repository_impl.dart';
+import 'domain/repository/receipt_repository.dart';
+import 'domain/usecase/add_products.dart';
 import 'domain/usecase/add_receipt.dart';
 import 'domain/usecase/delete_receipt.dart';
+import 'domain/usecase/get_receipt.dart';
 import 'domain/usecase/get_specific_receipt.dart';
+import 'presentation/receipt_cubit/receipt_cubit.dart';
 
 final sl = GetIt.instance;
 
