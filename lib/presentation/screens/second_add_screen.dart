@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:eyyplus/data/datasource/local_data_source.dart';
+import 'package:eyyplus/core/utils/suggestions_filter.dart';
 import 'package:eyyplus/domain/entity/product_suggestion.dart';
 import 'package:eyyplus/presentation/receipt_cubit/receipt_cubit.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:general/general.dart';
 import 'package:intl/intl.dart';
-
-import 'package:eyyplus/domain/entity/receiptentity.dart';
-import 'package:searchfield/searchfield.dart';
 
 import '../../domain/entity/productentity.dart';
 import '../widgets/customquicksandtext.dart';
@@ -30,7 +27,7 @@ class SecondAddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<SecondAddScreen> {
-  LocalDataSourceImpl local = LocalDataSourceImpl();
+  //*controllers
   final _receipt = TextEditingController();
   final _date = TextEditingController();
   final _supplier = TextEditingController();
@@ -40,6 +37,7 @@ class _AddScreenState extends State<SecondAddScreen> {
   final _discount = TextEditingController();
   final _totalp = TextEditingController();
   final _unit = TextEditingController();
+
   @override
   void initState() {
     _receipt.text = widget.receipno;
@@ -48,44 +46,14 @@ class _AddScreenState extends State<SecondAddScreen> {
     super.initState();
   }
 
-  List<String> products = [
-    'test1',
-    'test2',
-    'test3',
-    'test4',
-    'test5',
-    'test6',
-    'test7',
-  ];
-
-  List<String> getSuggestions(String query) {
-    List<String> matches = [];
-    matches.addAll(products);
-    matches.retainWhere(
-        (element) => element.toLowerCase().contains(query.toLowerCase()));
-    return matches;
-  }
-
-  // List<ReceiptEntity> searchproduct(String query) {
-  //   final suggestions = (widget.receipts ?? []).where((receipt) {
-  //     final products = receipt.product.where((product) {
-  //       final _product = product.product.toLowerCase();
-  //       final input = query.toLowerCase();
-  //       print(input);
-  //       return _product.contains(input);
-  //     }).toList();
-  //     return products.isNotEmpty ? true : false;
-  //   }).toList();
-  //   storage = suggestions;
-  //   return storage;
-  // }
-
+  //*
   int totalquantity = 0;
   double totalprice = 0;
   double _totalprice = 0;
   int totalq = 0;
   int dc = 0;
   double zero = 0;
+  final searchKey = GlobalKey<FormState>();
   var pricekey = GlobalKey<FormState>();
   var quankey = GlobalKey<FormState>();
 
@@ -181,42 +149,89 @@ class _AddScreenState extends State<SecondAddScreen> {
               const SizedBox(height: 15),
               const CustomQuickSandText(text: 'Product Name'),
               const SizedBox(height: 15),
-              TypeAheadField<ProductSuggestionEntity>(
-                suggestionsCallback: (query) async {
-                  return await local.showSuggestions(query);
-                },
-                itemBuilder: (context, suggestion) {
-                  return Text(
-                    suggestion.suggestion,
-                  );
-                },
-                onSuggestionSelected: (suggestion) {
-                  print(suggestion);
-                  setState(
-                    () {
-                      _product.text = suggestion.suggestion;
-                    },
-                  );
-                },
-                textFieldConfiguration: TextFieldConfiguration(
-                  controller: _product,
+              Form(
+                key: searchKey,
+                child: TypeAheadFormField<ProductSuggestionEntity>(
+                  autoFlipDirection: true,
+                  suggestionsBoxVerticalOffset: 1,
+                  hideOnEmpty: true,
+                  debounceDuration: const Duration(milliseconds: 200),
+                  getImmediateSuggestions: true,
+                  suggestionsCallback: (query) async {
+                    return await SuggestionFilter().showSuggestions(query);
+                  },
+                  itemBuilder: (context, suggestion) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 4,
+                      ),
+                      child: CustomQuickSandText(
+                        text: suggestion.suggestion,
+                        weight: FontWeight.w600,
+                        size: 16,
+                      ),
+                    );
+                  },
+                  onSuggestionSelected: (suggestion) {
+                    setState(
+                      () {
+                        _product.text = suggestion.suggestion;
+                      },
+                    );
+                  },
+                  textFieldConfiguration: TextFieldConfiguration(
+                    controller: _product,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                      filled: true,
+                      fillColor: const Color(0xff58739B).withOpacity(0.2),
+                      focusColor: const Color(0xff58739B).withOpacity(0.2),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0),
+                        borderSide: BorderSide(
+                          color: const Color(0xff58739B).withOpacity(0.2),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0),
+                        borderSide: const BorderSide(style: BorderStyle.none),
+                      ),
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0),
+                        borderSide: const BorderSide(color: Colors.grey),
+                      ),
+                      hintText: 'Product Name',
+                      hintStyle: Theme.of(context)
+                          .textTheme
+                          .subtitle2!
+                          .copyWith(color: Colors.grey),
+                    ),
+                  ),
+                  suggestionsBoxDecoration: const SuggestionsBoxDecoration(
+                    elevation: 8,
+                    color: Color(0xffE1E5EA),
+                    clipBehavior: Clip.antiAlias,
+                  ),
+                  validator: (value) {
+                    value != null && value.isEmpty
+                        ? 'Please Select a product'
+                        : null;
+                  },
+                  // onSaved: (value){
+
+                  // },
                 ),
               ),
-              // TypeAheadFormField(
-              //   textFieldConfiguration:
-              //       TextFieldConfiguration(controller: _product),
-              //   onSuggestionSelected: (String? suggestion) {
-              //     setState(() {
-              //       _product.text = suggestion!;
-              //     });
-              //   },
-              //   itemBuilder: (context, String suggestion) {
-              //     return Text(suggestion);
-              //   },
-              //   suggestionsCallback: (value) {
-              //     return getSuggestions(value);
-              //   },
-              // ),
               const SizedBox(height: 15),
               Row(
                 children: const [
@@ -451,8 +466,9 @@ class _AddScreenState extends State<SecondAddScreen> {
                           unit: _unit.text,
                         );
                         final productSugg = ProductSuggestionEntity(
-                            suggestion: _product.text,
-                            receiptno: _receipt.text);
+                          suggestion: _product.text,
+                          receiptno: _receipt.text,
+                        );
                         context.read<ReceiptCubit>().addProduct(productSugg);
                         _product.clear();
                         _price.clear();

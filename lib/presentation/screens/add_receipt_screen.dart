@@ -37,8 +37,6 @@ class _AddScreenState extends State<AddScreen> {
   @override
   void initState() {
     totalprice += widget.product?.price ?? 0;
-    print('price: ${widget.product?.price ?? 0}');
-    print('totalprice: $totalprice');
     _date.text = DateFormat('dd MMM yyyy, KK:mm a').format(DateTime.now());
     super.initState();
   }
@@ -138,7 +136,7 @@ class _AddScreenState extends State<AddScreen> {
             ),
             const SizedBox(height: 15),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: CustomTextField(
                 'Supplier Name',
                 controller: _supplier,

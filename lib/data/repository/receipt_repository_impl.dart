@@ -1,5 +1,5 @@
-import 'package:eyyplus/data/models/product_suggestion.dart';
-import 'package:eyyplus/domain/entity/product_suggestion.dart';
+import '../models/product_suggestion.dart';
+import '../../domain/entity/product_suggestion.dart';
 
 import '../../core/error/cacheexception.dart';
 import '../../core/error/cachefailure.dart';
@@ -49,16 +49,5 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
   @override
   Future<void> addProducts(ProductSuggestionEntity products) async {
     await local.addProducts(ProductSuggestionModel.fromEntity(products));
-  }
-
-  @override
-  Future<Either<CacheFailure, List<ProductSuggestionEntity>>> showSuggestions(
-      String query) async {
-    try {
-      final result = await local.showSuggestions(query);
-      return Right(result);
-    } on CacheException {
-      return Left(CacheFailure());
-    }
   }
 }

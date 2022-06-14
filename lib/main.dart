@@ -1,5 +1,5 @@
-import 'package:eyyplus/data/datasource/local_data_source.dart';
-import 'package:eyyplus/data/models/product_suggestion.dart';
+import 'data/datasource/local_data_source.dart';
+import 'data/models/product_suggestion.dart';
 
 import 'core/color/color.dart';
 import 'presentation/receipt_cubit/receipt_cubit.dart';
@@ -19,7 +19,7 @@ void main() async {
   Hive.registerAdapter(ProductSuggestionModelAdapter());
   Hive.registerAdapter(ReceiptModelAdapter());
   Hive.registerAdapter(ProductModelAdapter());
-  await Hive.openBox('products_suggestions6');
+  await Hive.openBox('products_suggestions7');
   await Hive.openBox('product_storage_edite6');
   await Hive.openBox('aplus_receipt_edited6');
 

@@ -1,4 +1,4 @@
-import 'package:eyyplus/presentation/receipt_cubit/receipt_cubit.dart';
+import '../receipt_cubit/receipt_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 

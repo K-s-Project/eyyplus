@@ -1,9 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-
 import 'package:eyyplus/domain/usecase/add_products.dart';
-import 'package:eyyplus/domain/usecase/show_suggestions.dart';
+import 'package:meta/meta.dart';
 
 import '../../domain/entity/product_suggestion.dart';
 import '../../domain/entity/receiptentity.dart';
@@ -21,7 +19,6 @@ class ReceiptCubit extends Cubit<ReceiptState> {
     this._deleteReceipt,
     this._getSpecificReceipt,
     this._addProducts,
-    this._showSuggestions,
   ) : super(ReceiptInitial());
 
   final GetReceipt _getReceipt;
@@ -29,7 +26,6 @@ class ReceiptCubit extends Cubit<ReceiptState> {
   final DeleteReceipt _deleteReceipt;
   final GetSpecificReceipt _getSpecificReceipt;
   final AddProducts _addProducts;
-  final ShowSuggestions _showSuggestions;
 
   void getReceipt() async {
     emit(Loading());
@@ -61,18 +57,6 @@ class ReceiptCubit extends Cubit<ReceiptState> {
         emit(Empty(msg: 'no result'));
       } else {
         emit(Loaded(receipts: r));
-      }
-    });
-  }
-
-  void showSuggestions(String search) async {
-    emit(Loading());
-    final either = await _showSuggestions.call(search);
-    either.fold((l) => emit(Error()), (r) {
-      if (r.isEmpty) {
-        emit(Empty(msg: ''));
-      } else {
-        emit(SuggestionLoaded(suggestions: r));
       }
     });
   }
