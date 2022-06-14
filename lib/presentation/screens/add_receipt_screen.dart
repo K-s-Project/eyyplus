@@ -175,7 +175,7 @@ class _AddScreenState extends State<AddScreen> {
                 color: const Color(0xff58739B).withOpacity(0.40),
                 validator: (value) {
                   if (value!.isEmpty ||
-                      !RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
+                      !RegExp(r'^[a-z A-Z]').hasMatch(value)) {
                     return 'Enter the correct supplier name';
                   } else {
                     return null;

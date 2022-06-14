@@ -164,8 +164,7 @@ class _AddScreenState extends State<SecondAddScreen> {
                   radius: 0,
                   color: const Color(0xff58739B).withOpacity(0.40),
                   validator: (value) {
-                if (value!.isEmpty ||
-                    !RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
+                if (value!.isEmpty || !RegExp(r'^[a-z A-Z]').hasMatch(value)) {
                   return 'Enter the correct supplier name';
                 } else {
                   return null;
@@ -264,10 +263,9 @@ class _AddScreenState extends State<SecondAddScreen> {
               ),
               const SizedBox(height: 15),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [
-                  CustomQuickSandText(text: 'Price'),
-                  CustomQuickSandText(text: 'Total Price')
+                  Expanded(child: CustomQuickSandText(text: 'Price')),
+                  Expanded(child: CustomQuickSandText(text: 'Total Price'))
                 ],
               ),
               const SizedBox(height: 5),
@@ -300,7 +298,7 @@ class _AddScreenState extends State<SecondAddScreen> {
                       keyboard: TextInputType.number,
                     ),
                   ),
-                  const SizedBox(width: 40),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: CustomTextField(
                       'Total Price',
@@ -313,13 +311,12 @@ class _AddScreenState extends State<SecondAddScreen> {
               ),
               const SizedBox(height: 15),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [
-                  CustomQuickSandText(text: 'Quantity'),
-                  CustomQuickSandText(text: 'Discount')
+                  Expanded(child: CustomQuickSandText(text: 'Quantity')),
+                  Expanded(child: CustomQuickSandText(text: 'Discount'))
                 ],
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 5),
               Row(
                 children: [
                   Expanded(
@@ -372,7 +369,7 @@ class _AddScreenState extends State<SecondAddScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 40),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: CustomTextField(
                       'Discount',

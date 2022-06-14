@@ -387,7 +387,7 @@ class _MainScreenState extends State<MainScreen> {
                   } else if (state is Empty) {
                     return Container(
                       height: 89,
-                      width: 428,
+                      width: double.infinity,
                       color: const Color(0xffBCC7D7).withOpacity(0.40),
                       child:
                           Center(child: CustomQuickSandText(text: state.msg)),
@@ -399,7 +399,7 @@ class _MainScreenState extends State<MainScreen> {
                   } else if (state is Error) {
                     return Container(
                       height: 89,
-                      width: 428,
+                      width: double.infinity,
                       color: const Color(0xffBCC7D7).withOpacity(0.40),
                       child: const Center(
                         child: CustomQuickSandText(
