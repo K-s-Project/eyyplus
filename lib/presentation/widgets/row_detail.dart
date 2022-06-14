@@ -25,6 +25,7 @@ class RowDetail extends StatelessWidget {
           weight: FontWeight.w700,
           size: 12,
           color: const Color(0xff000000).withOpacity(0.60),
+          overflow: TextOverflow.ellipsis,
         ),
         CustomQuickSandText(
           text: text2,
