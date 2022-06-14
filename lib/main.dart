@@ -18,7 +18,7 @@ main() async {
   Hive.registerAdapter(ProductSuggestionModelAdapter());
   Hive.registerAdapter(ReceiptModelAdapter());
   Hive.registerAdapter(ProductModelAdapter());
-  await Hive.openBox('products_suggestions7');
+  await Hive.openBox('products_suggestions9');
   await Hive.openBox('product_storage_edite6');
   await Hive.openBox('aplus_receipt_edited6');
 

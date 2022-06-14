@@ -149,88 +149,81 @@ class _AddScreenState extends State<SecondAddScreen> {
               const SizedBox(height: 15),
               const CustomQuickSandText(text: 'Product Name'),
               const SizedBox(height: 15),
-              Form(
+              TypeAheadFormField<ProductSuggestionEntity>(
                 key: searchKey,
-                child: TypeAheadFormField<ProductSuggestionEntity>(
-                  autoFlipDirection: true,
-                  suggestionsBoxVerticalOffset: 1,
-                  hideOnEmpty: true,
-                  debounceDuration: const Duration(milliseconds: 200),
-                  getImmediateSuggestions: true,
-                  suggestionsCallback: (query) async {
-                    return await SuggestionFilter().showSuggestions(query);
-                  },
-                  itemBuilder: (context, suggestion) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 4,
-                      ),
-                      child: CustomQuickSandText(
-                        text: suggestion.suggestion,
-                        weight: FontWeight.w600,
-                        size: 16,
-                      ),
-                    );
-                  },
-                  onSuggestionSelected: (suggestion) {
-                    setState(
-                      () {
-                        _product.text = suggestion.suggestion;
-                      },
-                    );
-                  },
-                  textFieldConfiguration: TextFieldConfiguration(
-                    controller: _product,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                      filled: true,
-                      fillColor: const Color(0xff58739B).withOpacity(0.2),
-                      focusColor: const Color(0xff58739B).withOpacity(0.2),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(0),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(0),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(0),
-                        borderSide: BorderSide(
-                          color: const Color(0xff58739B).withOpacity(0.2),
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(0),
-                        borderSide: const BorderSide(style: BorderStyle.none),
-                      ),
-                      disabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(0),
-                        borderSide: const BorderSide(color: Colors.grey),
-                      ),
-                      hintText: 'Product Name',
-                      hintStyle: Theme.of(context)
-                          .textTheme
-                          .subtitle2!
-                          .copyWith(color: Colors.grey),
+                noItemsFoundBuilder: (context) {
+                  return const SizedBox.shrink();
+                },
+                suggestionsCallback: (query) async {
+                  return await SuggestionFilter().showSuggestions(query);
+                },
+                itemBuilder: (context, suggestion) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0,
+                      vertical: 4,
                     ),
+                    child: CustomQuickSandText(
+                      text: suggestion.suggestion,
+                      weight: FontWeight.w600,
+                      size: 16,
+                    ),
+                  );
+                },
+                onSuggestionSelected: (suggestion) {
+                  setState(
+                    () {
+                      _product.text = suggestion.suggestion;
+                    },
+                  );
+                },
+                textFieldConfiguration: TextFieldConfiguration(
+                  controller: _product,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                    filled: true,
+                    fillColor: const Color(0xff58739B).withOpacity(0.2),
+                    focusColor: const Color(0xff58739B).withOpacity(0.2),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0),
+                      borderSide: const BorderSide(
+                        color: Colors.red,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0),
+                      borderSide: BorderSide(
+                        color: const Color(0xff58739B).withOpacity(0.2),
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0),
+                      borderSide: const BorderSide(style: BorderStyle.none),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0),
+                      borderSide: const BorderSide(color: Colors.grey),
+                    ),
+                    hintText: 'Product Name',
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .subtitle2!
+                        .copyWith(color: Colors.grey),
                   ),
-                  suggestionsBoxDecoration: const SuggestionsBoxDecoration(
-                    elevation: 8,
-                    color: Color(0xffE1E5EA),
-                    clipBehavior: Clip.antiAlias,
-                  ),
-                  validator: (value) {
-                    value != null && value.isEmpty
-                        ? 'Please Select a product'
-                        : null;
-                  },
-                  // onSaved: (value){
-
-                  // },
+                  autocorrect: true,
                 ),
+                suggestionsBoxDecoration: const SuggestionsBoxDecoration(
+                  elevation: 0,
+                  color: Color(0xffE1E5EA),
+                ),
+                autoFlipDirection: true,
+
+                // onSaved: (value){
+
+                // },
               ),
               const SizedBox(height: 15),
               Row(
