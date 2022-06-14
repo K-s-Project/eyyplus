@@ -6,16 +6,22 @@ part 'productmodel.g.dart';
 
 @HiveType(typeId: 1)
 class ProductModel extends ProductEntity {
+  @override
   @HiveField(0)
   final String product;
+  @override
   @HiveField(1)
   final double price;
+  @override
   @HiveField(2)
   final double totalprice;
+  @override
   @HiveField(3)
   final int quantity;
+  @override
   @HiveField(4)
   final int discount;
+  @override
   @HiveField(5)
   final String unit;
   ProductModel({

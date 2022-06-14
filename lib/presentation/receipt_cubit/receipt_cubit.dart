@@ -42,10 +42,13 @@ class ReceiptCubit extends Cubit<ReceiptState> {
   }
 
   void addReceipt(ReceiptEntity receipt) async {
+    emit(Loading());
+    print('Add Receipt $receipt');
     await _addReceipt.call(receipt: receipt);
   }
 
   void delete(String receiptno) async {
+    emit(Loading());
     await _deleteReceipt.call(receiptno: receiptno);
   }
 
@@ -62,6 +65,7 @@ class ReceiptCubit extends Cubit<ReceiptState> {
   }
 
   void addProduct(ProductSuggestionEntity products) async {
+    emit(Loading());
     await _addProducts.call(products);
   }
 }
