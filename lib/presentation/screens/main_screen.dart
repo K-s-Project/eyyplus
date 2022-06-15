@@ -247,7 +247,7 @@ class _MainScreenState extends State<MainScreen> {
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 4.0),
+                                        vertical: 10.0),
                                     child: ListTile(
                                       title: CustomQuickSandText(
                                         text:
