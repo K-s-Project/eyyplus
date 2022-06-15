@@ -61,31 +61,49 @@ class DetailScreen extends StatelessWidget {
                 splitter: 50,
                 isDot: true,
               ),
+              const SizedBox(
+                height: 15,
+              ),
               RowDetail(
                 text1: 'Receipt No.',
                 text2: '#${receipt.receiptno}',
                 size: 12,
+              ),
+              const SizedBox(
+                height: 15,
               ),
               RowDetail(
                 text1: 'Date',
                 text2: receipt.date,
                 size: 12,
               ),
+              const SizedBox(
+                height: 15,
+              ),
               RowDetail(
                 text1: 'Supplier Name',
                 text2: receipt.supplier,
                 size: 12,
+              ),
+              const SizedBox(
+                height: 15,
               ),
               const HDivider(
                 color: Color(0xffBE5108),
                 splitter: 50,
                 isDot: true,
               ),
+              const SizedBox(
+                height: 15,
+              ),
               const CustomQuickSandText(
                 text: 'Products',
                 color: Color(0xffBE5108),
                 size: 14,
                 weight: FontWeight.w700,
+              ),
+              const SizedBox(
+                height: 15,
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -141,6 +159,9 @@ class DetailScreen extends StatelessWidget {
                   );
                 }).toList(),
               ),
+              const SizedBox(
+                height: 15,
+              ),
               RowDetail(
                 text1: 'Total',
                 text2: NumberFormat.currency(
@@ -151,16 +172,25 @@ class DetailScreen extends StatelessWidget {
                 color: PRIMARY_COLOR,
                 size: 16,
               ),
+              const SizedBox(
+                height: 15,
+              ),
               const HDivider(
                 color: Color(0xffBE5108),
                 splitter: 50,
                 isDot: true,
+              ),
+              const SizedBox(
+                height: 15,
               ),
               const CustomQuickSandText(
                 text: '* * *',
                 size: 36,
                 weight: FontWeight.w700,
                 color: PRIMARY_COLOR,
+              ),
+              const SizedBox(
+                height: 15,
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 60.0),
@@ -172,6 +202,9 @@ class DetailScreen extends StatelessWidget {
                   weight: FontWeight.w700,
                   color: Color(0xff58739B),
                 ),
+              ),
+              const SizedBox(
+                height: 25,
               ),
               InkWell(
                 onTap: () {
