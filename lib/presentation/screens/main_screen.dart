@@ -172,6 +172,7 @@ class _MainScreenState extends State<MainScreen> {
 
                           receipts.removeAt(0);
                           for (var receipt in receipts) {
+                            print(receipt);
                             final rawproducts = json.decode(receipt[5]) as List;
 
                             final localproducts = rawproducts
