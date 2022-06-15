@@ -57,6 +57,7 @@ class _AddScreenState extends State<SecondAddScreen> {
   final searchKey = GlobalKey<FormState>();
   var pricekey = GlobalKey<FormState>();
   var quankey = GlobalKey<FormState>();
+  final productKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +187,7 @@ class _AddScreenState extends State<SecondAddScreen> {
               const CustomQuickSandText(text: 'Product Name'),
               const SizedBox(height: 15),
               TypeAheadFormField<ProductSuggestionEntity>(
-                key: searchKey,
+                key: productKey,
                 noItemsFoundBuilder: (context) {
                   return const SizedBox.shrink();
                 },
@@ -256,6 +257,13 @@ class _AddScreenState extends State<SecondAddScreen> {
                   color: Color(0xffE1E5EA),
                 ),
                 autoFlipDirection: true,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a product';
+                  } else {
+                    return null;
+                  }
+                },
 
                 // onSaved: (value){
 
@@ -442,13 +450,13 @@ class _AddScreenState extends State<SecondAddScreen> {
                           _quantity.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
+                            backgroundColor: Color(0xffBE5108),
                             content: CustomQuickSandText(
                               text: 'Please fill up text field',
                             ),
                           ),
                         );
-                      }
-                      if (_discount.text.isEmpty) {
+                      } else if (_discount.text.isEmpty) {
                         final multipliedprice = double.parse(_price.text) *
                             int.parse(_quantity.text);
                         _totalp.text = NumberFormat.currency(
@@ -479,7 +487,9 @@ class _AddScreenState extends State<SecondAddScreen> {
                           context,
                           product,
                         );
-                      } else {
+                      } else if (productKey.currentState!.validate() &&
+                          pricekey.currentState!.validate() &&
+                          quankey.currentState!.validate()) {
                         final discount = int.parse(_discount.text) / 100;
                         final multipliedprice = double.parse(_price.text) *
                             int.parse(_quantity.text);
