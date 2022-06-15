@@ -139,6 +139,8 @@ class _MainScreenState extends State<MainScreen> {
                                     duration: Duration(milliseconds: 120),
                                     content: CustomQuickSandText(
                                       text: 'Export Successfully!',
+                                      weight: FontWeight.bold,
+                                      color: Color(0xff58739B),
                                     ),
                                   ),
                                 );
@@ -155,6 +157,9 @@ class _MainScreenState extends State<MainScreen> {
                             },
                             child: const CustomQuickSandText(
                               text: 'Export',
+                              weight: FontWeight.bold,
+                              color: Color(0xff58739B),
+                              size: 16,
                             ));
                       }
                       return const SizedBox();
@@ -189,9 +194,18 @@ class _MainScreenState extends State<MainScreen> {
                                 .addReceipt(localreceipt);
                             context.read<ReceiptCubit>().getReceipt();
                           }
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              duration: const Duration(seconds: 1),
+                              backgroundColor: Colors.green,
+                              content: CustomQuickSandText(
+                                  text:
+                                      'Import Successfully! ${receipts.length} Receipts')));
                         },
                         child: const CustomQuickSandText(
                           text: 'Import',
+                          weight: FontWeight.bold,
+                          color: Color(0xff58739B),
+                          size: 16,
                         )),
                   ],
                 ),
