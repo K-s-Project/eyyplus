@@ -487,9 +487,7 @@ class _AddScreenState extends State<SecondAddScreen> {
                           context,
                           product,
                         );
-                      } else if (productKey.currentState!.validate() &&
-                          pricekey.currentState!.validate() &&
-                          quankey.currentState!.validate()) {
+                      } else {
                         final discount = int.parse(_discount.text) / 100;
                         final multipliedprice = double.parse(_price.text) *
                             int.parse(_quantity.text);
