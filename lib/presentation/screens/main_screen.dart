@@ -247,7 +247,7 @@ class _MainScreenState extends State<MainScreen> {
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
+                                        vertical: 4.0),
                                     child: ListTile(
                                       title: CustomQuickSandText(
                                         text:
@@ -309,7 +309,7 @@ class _MainScreenState extends State<MainScreen> {
                                           CustomQuickSandText(
                                             text: receipt.supplier,
                                             weight: FontWeight.w700,
-                                            color: Colors.black,
+                                            color: Color(0xffBE5108),
                                             size: 14,
                                           ),
                                         ],
@@ -318,80 +318,89 @@ class _MainScreenState extends State<MainScreen> {
                                   ),
                                 ),
                               ),
-                              body: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                              body: Column(
+                                children: [
+                                  const Divider(
+                                    color: Color(0xff58739B),
+                                    thickness: 1,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        const CustomQuickSandText(
-                                          text: 'ITEMS INCLUDED',
-                                          weight: FontWeight.w700,
-                                        ),
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
-                                          children:
-                                              receipt.product.map((product) {
-                                            return CustomQuickSandText(
-                                              text: product.discount == 0
-                                                  ? '${product.quantity}x ${product.product}   no discount'
-                                                  : '${product.quantity}x ${product.product}    ${product.discount}%off',
-                                            );
-                                          }).toList(),
+                                          children: [
+                                            const CustomQuickSandText(
+                                              text: 'ITEMS INCLUDED',
+                                              weight: FontWeight.w700,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: receipt.product
+                                                  .map((product) {
+                                                return CustomQuickSandText(
+                                                  text: product.discount == 0
+                                                      ? '${product.quantity}x ${product.product}   no discount'
+                                                      : '${product.quantity}x ${product.product}    ${product.discount}%off',
+                                                );
+                                              }).toList(),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        InkWell(
-                                          onTap: () async {
-                                            bool? isrefreshed =
-                                                await Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BlocProvider<ReceiptCubit>(
-                                                  create: (context) =>
-                                                      sl<ReceiptCubit>(),
-                                                  child: DetailScreen(
-                                                      receipt: receipt),
-                                                ),
+                                        Column(
+                                          children: [
+                                            InkWell(
+                                              onTap: () async {
+                                                bool? isrefreshed =
+                                                    await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        BlocProvider<
+                                                            ReceiptCubit>(
+                                                      create: (context) =>
+                                                          sl<ReceiptCubit>(),
+                                                      child: DetailScreen(
+                                                          receipt: receipt),
+                                                    ),
+                                                  ),
+                                                );
+                                                if (isrefreshed ?? false) {
+                                                  context
+                                                      .read<ReceiptCubit>()
+                                                      .getReceipt();
+                                                }
+                                              },
+                                              child: const CustomQuickSandText(
+                                                text: 'VIEW DETAILS',
+                                                weight: FontWeight.bold,
                                               ),
-                                            );
-                                            if (isrefreshed ?? false) {
-                                              context
-                                                  .read<ReceiptCubit>()
-                                                  .getReceipt();
-                                            }
-                                          },
-                                          child: const CustomQuickSandText(
-                                            text: 'VIEW DETAILS',
-                                            weight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children:
-                                              receipt.product.map((product) {
-                                            return CustomQuickSandText(
-                                              text: NumberFormat.currency(
-                                                locale: 'fil',
-                                                symbol: '₱',
-                                                decimalDigits: 2,
-                                              ).format(product.totalprice),
-                                            );
-                                          }).toList(),
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: receipt.product
+                                                  .map((product) {
+                                                return CustomQuickSandText(
+                                                  text: NumberFormat.currency(
+                                                    locale: 'fil',
+                                                    symbol: '₱',
+                                                    decimalDigits: 2,
+                                                  ).format(product.totalprice),
+                                                );
+                                              }).toList(),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             );
                           }).toList(),
