@@ -1,4 +1,4 @@
-package com.example.aplus
+package com.example.eyyplus
 
 import io.flutter.embedding.android.FlutterActivity
 
