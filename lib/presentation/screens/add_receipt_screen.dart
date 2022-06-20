@@ -217,6 +217,7 @@ class _AddScreenState extends State<AddScreen> {
                     children: products.map((product) {
                       final isOdd = products.indexOf(product) % 2 == 0;
                       return ListTile(
+                        // isThreeLine: true,
                         tileColor:
                             isOdd ? MAIN_COLOR.withOpacity(0.2) : Colors.white,
                         title: CustomQuickSandText(
@@ -225,9 +226,10 @@ class _AddScreenState extends State<AddScreen> {
                         ),
                         trailing: CustomQuickSandText(
                             text: '₱${product.totalprice.toStringAsFixed(2)}'),
-                        subtitle: Row(
+                        subtitle: Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
                           children: [
-                            const SizedBox(height: 8),
                             Container(
                               width: 67,
                               height: 19,
@@ -242,9 +244,6 @@ class _AddScreenState extends State<AddScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              width: 10,
-                            ),
                             Container(
                               width: 80,
                               height: 19,
@@ -256,10 +255,6 @@ class _AddScreenState extends State<AddScreen> {
                                     text: "${product.quantity} ITEMS",
                                     color: Colors.white),
                               ),
-                            ),
-                            const SizedBox(height: 8),
-                            const SizedBox(
-                              width: 10,
                             ),
                             Container(
                               width: 67,
@@ -274,7 +269,60 @@ class _AddScreenState extends State<AddScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 8),
+                            InkWell(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (ctx) {
+                                      return StatefulBuilder(
+                                          builder: (context, setState) {
+                                        return AlertDialog(
+                                          backgroundColor: Colors.white,
+                                          title: const CustomQuickSandText(
+                                            text: 'Are you sure?',
+                                            weight: FontWeight.w500,
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const CustomQuickSandText(
+                                                text: 'No',
+                                                weight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  products.remove(product);
+                                                });
+                                                Navigator.pop(context);
+                                              },
+                                              child: const CustomQuickSandText(
+                                                text: 'Yes',
+                                                color: Color(0xffD70B2F),
+                                                weight: FontWeight.bold,
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      });
+                                    });
+                              },
+                              child: Container(
+                                height: 19,
+                                decoration:
+                                    const BoxDecoration(color: Colors.red),
+                                child: const Center(
+                                  child: CustomQuickSandText(
+                                    text: "DELETE THIS PRODUCT",
+                                    color: Colors.white,
+                                    weight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       );
