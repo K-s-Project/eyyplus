@@ -6,7 +6,7 @@ class ProductEntity {
 
   final double totalprice;
   final int quantity;
-  final int discount;
+  final double discount;
   final String unit;
   ProductEntity({
     required this.product,
@@ -34,7 +34,7 @@ class ProductEntity {
       price: map['price']?.toDouble() ?? 0.0,
       totalprice: map['totalprice']?.toDouble() ?? 0.0,
       quantity: map['quantity']?.toInt() ?? 0,
-      discount: map['discount']?.toInt() ?? 0,
+      discount: map['discount']?.double() ?? 0,
       unit: map['unit'] ?? '',
     );
   }

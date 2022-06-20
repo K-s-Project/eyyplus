@@ -52,7 +52,7 @@ class _AddScreenState extends State<SecondAddScreen> {
   double totalprice = 0;
   double _totalprice = 0;
   int totalq = 0;
-  int dc = 0;
+  double dc = 0;
   double zero = 0;
   final searchKey = GlobalKey<FormState>();
   var pricekey = GlobalKey<FormState>();
@@ -398,7 +398,7 @@ class _AddScreenState extends State<SecondAddScreen> {
                               decimalDigits: 2,
                             ).format(multipliedprice);
                           } else {
-                            final discount = int.parse(_discount.text) / 100;
+                            final discount = double.parse(_discount.text) / 100;
                             final multipliedprice = double.parse(_price.text) *
                                 int.parse(_quantity.text);
                             final discountvalue = multipliedprice * discount;
@@ -488,7 +488,7 @@ class _AddScreenState extends State<SecondAddScreen> {
                           product,
                         );
                       } else {
-                        final discount = int.parse(_discount.text) / 100;
+                        final discount = double.parse(_discount.text) / 100;
                         final multipliedprice = double.parse(_price.text) *
                             int.parse(_quantity.text);
                         final discountvalue = multipliedprice * discount;
@@ -499,7 +499,7 @@ class _AddScreenState extends State<SecondAddScreen> {
                           price: double.parse(_price.text),
                           totalprice: _totalprice,
                           quantity: int.parse(_quantity.text),
-                          discount: int.parse(_discount.text),
+                          discount: double.parse(_discount.text),
                           unit: _unit.text,
                         );
                         final productSugg = ProductSuggestionEntity(

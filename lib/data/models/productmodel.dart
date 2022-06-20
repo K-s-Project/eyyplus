@@ -20,7 +20,7 @@ class ProductModel extends ProductEntity {
   final int quantity;
   @override
   @HiveField(4)
-  final int discount;
+  final double discount;
   @override
   @HiveField(5)
   final String unit;

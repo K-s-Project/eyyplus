@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 import '../../data/models/product_suggestion.dart';
 
 class SuggestionFilter {
-  final suggestionBox = Hive.box('suggestions_fixed');
+  final suggestionBox = Hive.box('suggestions_fixed1');
   Future<List<ProductSuggestionModel>> showSuggestions(String query) async {
     var cachedReceipt = suggestionBox.values.toList();
     final convertedTable = cachedReceipt.map((e) {

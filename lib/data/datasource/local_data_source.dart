@@ -12,8 +12,8 @@ abstract class LocalDataSource {
 }
 
 class LocalDataSourceImpl implements LocalDataSource {
-  final box = Hive.box('aplus_receipts');
-  final suggestionBox = Hive.box('suggestions_fixed');
+  final box = Hive.box('aplus_receipts1');
+  final suggestionBox = Hive.box('suggestions_fixed1');
   @override
   Future<void> addReceipt(ReceiptModel receipt) async {
     await box.put(receipt.receiptno, receipt);
