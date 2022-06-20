@@ -1,3 +1,6 @@
+import 'package:eyyplus/data/models/supplier_suggestion.dart';
+import 'package:eyyplus/domain/entity/supplier_suggestion.dart';
+
 import '../models/product_suggestion.dart';
 import '../../domain/entity/product_suggestion.dart';
 
@@ -49,5 +52,10 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
   @override
   Future<void> addProducts(ProductSuggestionEntity products) async {
     await local.addProducts(ProductSuggestionModel.fromEntity(products));
+  }
+
+  @override
+  Future<void> addSupplier(SupplierSuggestionEntity supplier) async {
+    await local.addSupplier(SupplierSuggestionModel.fromEntity(supplier));
   }
 }

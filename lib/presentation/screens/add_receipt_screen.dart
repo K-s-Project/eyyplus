@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:eyyplus/domain/entity/supplier_suggestion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:general/general.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -9,6 +11,7 @@ import 'package:eyyplus/depedency.dart';
 import 'package:eyyplus/domain/entity/productentity.dart';
 
 import '../../core/color/color.dart';
+import '../../core/utils/suggestions_filter.dart';
 import '../../domain/entity/receiptentity.dart';
 import '../receipt_cubit/receipt_cubit.dart';
 import '../widgets/customquicksandtext.dart';
@@ -43,6 +46,7 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   List<ProductEntity> products = [];
+  final supplierKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -167,20 +171,88 @@ class _AddScreenState extends State<AddScreen> {
             const SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: CustomTextField(
-                'Supplier Name',
-                controller: _supplier,
-                formKey: const ValueKey('Supplier'),
-                radius: 0,
-                color: const Color(0xff58739B).withOpacity(0.40),
+              child: TypeAheadFormField<SupplierSuggestionEntity>(
+                key: supplierKey,
+                noItemsFoundBuilder: (context) {
+                  return const SizedBox.shrink();
+                },
+                suggestionsCallback: (query) async {
+                  return await SuggestionFilter().showSuppliers(query);
+                },
+                itemBuilder: (context, suggestion) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0,
+                      vertical: 4,
+                    ),
+                    child: CustomQuickSandText(
+                      text: suggestion.suppliername,
+                      weight: FontWeight.w600,
+                      size: 16,
+                    ),
+                  );
+                },
+                onSuggestionSelected: (suggestion) {
+                  setState(
+                    () {
+                      _supplier.text = suggestion.suppliername;
+                    },
+                  );
+                },
+                textFieldConfiguration: TextFieldConfiguration(
+                  controller: _supplier,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                    filled: true,
+                    fillColor: const Color(0xff58739B).withOpacity(0.2),
+                    focusColor: const Color(0xff58739B).withOpacity(0.2),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0),
+                      borderSide: const BorderSide(
+                        color: Colors.red,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0),
+                      borderSide: BorderSide(
+                        color: const Color(0xff58739B).withOpacity(0.2),
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0),
+                      borderSide: const BorderSide(style: BorderStyle.none),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0),
+                      borderSide: const BorderSide(color: Colors.grey),
+                    ),
+                    hintText: 'Supplier Name',
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .subtitle2!
+                        .copyWith(color: Colors.grey),
+                  ),
+                  autocorrect: true,
+                ),
+                suggestionsBoxDecoration: const SuggestionsBoxDecoration(
+                  elevation: 0,
+                  color: Color(0xffE1E5EA),
+                ),
+                autoFlipDirection: true,
                 validator: (value) {
-                  if (value!.isEmpty ||
-                      !RegExp(r'^[a-z A-Z]').hasMatch(value)) {
-                    return 'Enter the correct supplier name';
+                  if (value!.isEmpty) {
+                    return 'Please enter a supplier name';
                   } else {
                     return null;
                   }
                 },
+
+                // onSaved: (value){
+
+                // },
               ),
             ),
             const SizedBox(height: 15),

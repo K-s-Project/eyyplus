@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:eyyplus/core/utils/suggestions_filter.dart';
 import 'package:eyyplus/domain/entity/product_suggestion.dart';
+import 'package:eyyplus/domain/entity/supplier_suggestion.dart';
 import 'package:eyyplus/presentation/receipt_cubit/receipt_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -506,7 +507,13 @@ class _AddScreenState extends State<SecondAddScreen> {
                           suggestion: _product.text,
                           receiptno: _receipt.text,
                         );
+                        final supplierSuggestion = SupplierSuggestionEntity(
+                          suppliername: _supplier.text,
+                        );
                         context.read<ReceiptCubit>().addProduct(productSugg);
+                        context
+                            .read<ReceiptCubit>()
+                            .addSuppliers(supplierSuggestion);
                         _product.clear();
                         _price.clear();
                         _quantity.clear();

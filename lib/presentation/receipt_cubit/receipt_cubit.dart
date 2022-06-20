@@ -1,7 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
-import 'package:eyyplus/domain/usecase/add_products.dart';
+import 'package:eyyplus/data/models/supplier_suggestion.dart';
+import 'package:eyyplus/domain/entity/supplier_suggestion.dart';
 import 'package:meta/meta.dart';
+
+import 'package:eyyplus/domain/usecase/add_products.dart';
+import 'package:eyyplus/domain/usecase/add_suppliers.dart';
 
 import '../../domain/entity/product_suggestion.dart';
 import '../../domain/entity/receiptentity.dart';
@@ -19,6 +23,7 @@ class ReceiptCubit extends Cubit<ReceiptState> {
     this._deleteReceipt,
     this._getSpecificReceipt,
     this._addProducts,
+    this._addSuppliers,
   ) : super(ReceiptInitial());
 
   final GetReceipt _getReceipt;
@@ -26,6 +31,7 @@ class ReceiptCubit extends Cubit<ReceiptState> {
   final DeleteReceipt _deleteReceipt;
   final GetSpecificReceipt _getSpecificReceipt;
   final AddProducts _addProducts;
+  final AddSuppliers _addSuppliers;
 
   void getReceipt() async {
     emit(Loading());
@@ -67,5 +73,9 @@ class ReceiptCubit extends Cubit<ReceiptState> {
   void addProduct(ProductSuggestionEntity products) async {
     emit(Loading());
     await _addProducts.call(products);
+  }
+
+  void addSuppliers(SupplierSuggestionEntity supplier) async {
+    await _addSuppliers.call(supplier);
   }
 }

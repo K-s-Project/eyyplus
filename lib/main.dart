@@ -1,3 +1,4 @@
+import 'package:eyyplus/data/models/supplier_suggestion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -18,9 +19,11 @@ main() async {
   Hive.registerAdapter(ProductSuggestionModelAdapter());
   Hive.registerAdapter(ReceiptModelAdapter());
   Hive.registerAdapter(ProductModelAdapter());
+  Hive.registerAdapter(SupplierSuggestionModelAdapter());
   await Hive.openBox('suggestions_fixed1');
   await Hive.openBox('aplus_products1');
   await Hive.openBox('aplus_receipts1');
+  await Hive.openBox('supplier_suggestions');
 
   runApp(const MyApp());
 }

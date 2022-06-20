@@ -1,3 +1,4 @@
+import 'package:eyyplus/domain/usecase/add_suppliers.dart';
 import 'package:get_it/get_it.dart';
 
 import 'data/datasource/local_data_source.dart';
@@ -20,6 +21,7 @@ Future init() async {
       sl(),
       sl(),
       sl(),
+      sl(),
     ),
   );
 
@@ -28,6 +30,9 @@ Future init() async {
   sl.registerLazySingleton(() => DeleteReceipt(repo: sl()));
   sl.registerLazySingleton(() => GetSpecificReceipt(repo: sl()));
   sl.registerLazySingleton(() => AddProducts(repo: sl()));
+  sl.registerLazySingleton(
+    () => AddSuppliers(repo: sl()),
+  );
 
   sl.registerLazySingleton<ReceiptRepository>(
       () => ReceiptRepositoryImpl(local: sl()));

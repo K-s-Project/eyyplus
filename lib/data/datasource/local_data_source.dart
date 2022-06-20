@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 
 import '../models/product_suggestion.dart';
 import '../models/receiptmodel.dart';
+import '../models/supplier_suggestion.dart';
 
 abstract class LocalDataSource {
   Future<List<ReceiptModel>> getReceipt();
@@ -9,11 +10,13 @@ abstract class LocalDataSource {
   Future<void> deleteReceipt({required String receiptno});
   Future<List<ReceiptModel>> getSpecificReceipt(String text);
   Future<void> addProducts(ProductSuggestionModel products);
+  Future<void> addSupplier(SupplierSuggestionModel supplier);
 }
 
 class LocalDataSourceImpl implements LocalDataSource {
   final box = Hive.box('aplus_receipts1');
   final suggestionBox = Hive.box('suggestions_fixed1');
+  final supplierBox = Hive.box('supplier_suggestions');
   @override
   Future<void> addReceipt(ReceiptModel receipt) async {
     await box.put(receipt.receiptno, receipt);
@@ -54,5 +57,10 @@ class LocalDataSourceImpl implements LocalDataSource {
   @override
   Future<void> addProducts(ProductSuggestionModel products) async {
     await suggestionBox.put(products.suggestion, products);
+  }
+
+  @override
+  Future<void> addSupplier(SupplierSuggestionModel supplier) async {
+    await supplierBox.put(supplier.suppliername, supplier);
   }
 }
