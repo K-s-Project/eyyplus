@@ -347,7 +347,7 @@ class _AddScreenState extends State<AddScreen> {
                                     context: context,
                                     builder: (ctx) {
                                       return StatefulBuilder(
-                                          builder: (context, setState) {
+                                          builder: (context, insideSetState) {
                                         return AlertDialog(
                                           backgroundColor: Colors.white,
                                           title: const CustomQuickSandText(

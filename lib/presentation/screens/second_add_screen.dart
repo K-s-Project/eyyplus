@@ -37,6 +37,8 @@ class _AddScreenState extends State<SecondAddScreen> {
   final _price = TextEditingController();
   final _quantity = TextEditingController();
   final _discount = TextEditingController();
+  final _2nddiscount = TextEditingController();
+  final _3rddiscount = TextEditingController();
   final _totalp = TextEditingController();
   final _unit = TextEditingController();
 
@@ -412,6 +414,52 @@ class _AddScreenState extends State<SecondAddScreen> {
                           }
                         });
                       },
+                      suffix: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          CustomText(
+                            '%',
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                      keyboard: TextInputType.number,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 17,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomTextField(
+                      'Discount 1',
+                      controller: _2nddiscount,
+                      radius: 0,
+                      color: const Color(0xff58739B).withOpacity(0.40),
+                      onChanged: (value) {},
+                      suffix: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          CustomText(
+                            '%',
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                      keyboard: TextInputType.number,
+                    ),
+                  ),
+                  const SizedBox(width: 15),
+                  Expanded(
+                    child: CustomTextField(
+                      'Discount 2',
+                      controller: _3rddiscount,
+                      radius: 0,
+                      color: const Color(0xff58739B).withOpacity(0.40),
+                      onChanged: (value) {},
                       suffix: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
